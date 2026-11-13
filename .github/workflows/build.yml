@@ -13,7 +13,7 @@ jobs:
         uses: actions/checkout@v4
       - name: Conferir projeto
         run: |
-          ls settings.gradle settings.gradle.kts build.gradle build.gradle.kts >/dev/null 2>&1 || { echo "::error::settings.gradle ou build.gradle não encontrado na raiz do repositório"; exit 1; }
+          [ -f settings.gradle ] || [ -f settings.gradle.kts ] || [ -f build.gradle ] || [ -f build.gradle.kts ] || { echo "::error::settings.gradle ou build.gradle não encontrado na raiz do repositório"; exit 1; }
       - name: Configurar Java
         uses: actions/setup-java@v4
         with:
