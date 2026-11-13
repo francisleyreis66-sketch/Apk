@@ -1,0 +1,7 @@
+cmake_minimum_required(VERSION 3.22.1)
+project(xlsmpdf CXX)
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+add_library(xlsmpdf SHARED jni_bridge.cpp xlsx2pdf.cpp pdfmerge.cpp)
+target_compile_options(xlsmpdf PRIVATE -O2 -fexceptions -frtti -Wall -Wno-unused-function)
+target_link_libraries(xlsmpdf z log)

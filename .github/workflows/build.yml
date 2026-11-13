@@ -1,0 +1,40 @@
+name: Gerar APK
+on:
+  workflow_dispatch:
+  push:
+    branches: [ main ]
+permissions:
+  contents: read
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Baixar projeto
+        uses: actions/checkout@v4
+      - name: Conferir projeto
+        run: |
+          ls settings.gradle settings.gradle.kts build.gradle build.gradle.kts >/dev/null 2>&1 || { echo "::error::settings.gradle ou build.gradle não encontrado na raiz do repositório"; exit 1; }
+      - name: Configurar Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+      - name: Preparar Gradle
+        uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: '8.13'
+      - name: Compilar APK
+        run: |
+          if [ -f gradlew ] && [ -f gradle/wrapper/gradle-wrapper.jar ]; then
+            chmod +x ./gradlew
+            ./gradlew assembleDebug --stacktrace
+          else
+            echo "Projeto sem Gradle Wrapper: usando Gradle 8.13"
+            gradle assembleDebug --stacktrace
+          fi
+      - name: Publicar APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: APK-Android
+          path: '**/build/outputs/apk/debug/*.apk'
+          if-no-files-found: error
