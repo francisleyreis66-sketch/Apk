@@ -27,7 +27,7 @@ jobs:
           [ -f package.json ] || npm init -y
           npm install @capacitor/core@^6 @capacitor/android@^6
           npm install -D @capacitor/cli@^6
-          [ -f capacitor.config.json ] || [ -f capacitor.config.ts ] || npx cap init "C BILD" "com.apk.app" --web-dir=www
+          [ -f capacitor.config.json ] || [ -f capacitor.config.ts ] || npx cap init "Planilha" "com.apk.app" --web-dir=www
           [ -d android ] || npx cap add android
           npx cap sync android
       - name: Aplicar ícone personalizado
