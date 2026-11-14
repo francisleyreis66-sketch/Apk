@@ -2,42 +2,888 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Retro Game GBA</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#101827">
+<title>APK pelo GitHub</title>
 <style>
-body{background:#111;color:#fff;font-family:sans-serif;text-align:center;margin:0;padding:20px}
-h1{font-size:22px}
-.box{background:#1e1e1e;padding:20px;border-radius:16px;max-width:500px;margin:0 auto}
-input{margin:15px 0}
-#game{width:100%;height:350px;background:#000;border-radius:12px}
-button{background:#00c853;color:#fff;border:0;padding:12px 20px;border-radius:10px;font-size:16px}
+:root{color-scheme:dark;--bg:#0b1220;--panel:#121d2e;--line:#26364d;--text:#eef4ff;--muted:#a9b8cc;--accent:#4f8cff;--good:#35c98a;--bad:#ff8a8a}
+*{box-sizing:border-box}body{margin:0;background:linear-gradient(160deg,#101b2d,#080d17);color:var(--text);font:15px system-ui,Arial,sans-serif}
+main{max-width:760px;margin:auto;padding:22px 15px 48px}.hero{padding:22px 4px 16px}h1{font-size:29px;margin:0 0 8px}.sub{color:var(--muted);line-height:1.5;margin:0}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:17px;margin:14px 0}
+h2{font-size:18px;margin:0 0 13px}h3{font-size:15px;margin:16px 0 4px;color:#dce7f7}.field{display:block;margin:13px 0 6px;color:#dce7f7;font-weight:600}
+input,select{width:100%;padding:13px;border-radius:10px;border:1px solid #3a4d68;background:#0c1524;color:var(--text);font:inherit}
+input[type=checkbox]{width:auto;margin:0 8px 0 0}
+.check{display:flex;align-items:center;margin-top:10px;font-size:14px;color:#dce7f7}
+button,.linkbtn{border:0;border-radius:11px;padding:13px 16px;background:var(--accent);color:white;font-weight:700;font-size:15px;cursor:pointer;text-align:center;text-decoration:none;display:inline-block}
+button:disabled{opacity:.5;cursor:default}
+button.secondary,.linkbtn.secondary{background:#26364d}button.good{background:#1f9d68}button.big{width:100%;font-size:17px;padding:16px}
+.actions{display:flex;flex-wrap:wrap;gap:9px;margin-top:14px}
+.note{font-size:13px;color:var(--muted);line-height:1.5}.warn{border-left:3px solid #e5ad48;padding:10px 12px;background:#2b2417;border-radius:7px;color:#f4dfb6;font-size:13px;line-height:1.5}
+.steps{counter-reset:s;list-style:none;padding:0;margin:0}.steps li{counter-increment:s;padding:10px 0 10px 40px;position:relative;color:#dce7f7;line-height:1.5}.steps li:before{content:counter(s);position:absolute;left:0;top:9px;background:#263d60;color:#fff;border-radius:50%;width:27px;height:27px;display:grid;place-items:center;font-weight:700}
+pre{white-space:pre-wrap;overflow-wrap:anywhere;background:#08101d;border:1px solid var(--line);padding:13px;border-radius:10px;font-size:12px;color:#cfe0ff;max-height:280px;overflow:auto}
+code{background:#08101d;padding:1px 5px;border-radius:5px;font-size:13px}
+a{color:#8db7ff}
+.tabs{display:flex;gap:6px;margin-bottom:12px}.tabs button{flex:1;background:#1a2738;font-size:14px;padding:11px 8px}.tabs button.on{background:var(--accent)}
+textarea.code{width:100%;min-height:260px;padding:12px;border-radius:10px;border:1px solid #3a4d68;background:#08101d;color:#cfe0ff;font:12px/1.45 ui-monospace,Menlo,Consolas,monospace;resize:vertical;white-space:pre;overflow:auto}
+.drop{display:block;border:2px dashed #3a4d68;border-radius:14px;padding:22px 14px;text-align:center;cursor:pointer;color:#dce7f7;background:#0c1524}
+.drop b{display:block;font-size:16px;margin-bottom:4px}.drop input{display:none}
+.user{display:flex;align-items:center;gap:12px;padding:12px;background:#0c1524;border-radius:12px;border:1px solid #1f6b4c}
+.user img{width:44px;height:44px;border-radius:50%}.user b{display:block}.user span{font-size:13px;color:var(--muted)}.user button{margin-left:auto;padding:9px 12px;font-size:13px}
+.icons{display:flex;gap:18px;align-items:center;justify-content:center;padding:14px;background:#0c1524;border-radius:12px;margin-top:12px}
+.icons figure{margin:0;text-align:center;font-size:12px;color:var(--muted)}.icons img{width:72px;height:72px;display:block;margin:0 auto 6px}
+.prog{margin-top:16px}.progHead{display:flex;justify-content:space-between;align-items:baseline;gap:10px}
+.progHead b{font-size:15px}.progHead span{font-size:22px;font-weight:800;color:var(--accent)}
+.bar{height:14px;background:#0c1524;border-radius:8px;overflow:hidden;margin:8px 0;border:1px solid var(--line)}
+.bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,#4f8cff,#35c98a);transition:width .4s}
+.bar.err i{background:#c94a4a}
+.log{font-size:13px;line-height:1.7;margin:8px 0 0;padding:0;list-style:none}.log li.ok{color:var(--good)}.log li.err{color:var(--bad)}
+details{margin-top:6px}summary{cursor:pointer;font-weight:700;padding:6px 0;color:#dce7f7}
+.hidden{display:none}.status{color:var(--good);font-weight:700}.small{font-size:12px;color:var(--muted)}.errtxt{color:var(--bad)}
 </style>
 </head>
 <body>
-<div class="box">
-<h1>🎮 Retro Game GBA</h1>
-<p>TV de tubo: <b>DESLIGADO</b> - imagem limpa</p>
-<p>1. Escolha seu jogo .gba</p>
-<input type="file" id="rom" accept=".gba,.zip">
-<div id="game"></div>
-<p>Controles: Setas = D-Pad | X = A | Z = B | Enter = Start</p>
-<button onclick="document.getElementById('rom').click()">📂 ESCOLHER JOGO</button>
-</div>
+<main>
+ <header class="hero">
+  <h1>🚀 APK pelo GitHub</h1>
+  <p class="sub">Conecte sua conta, envie o projeto e o GitHub transforma em APK. Tudo pelo navegador do celular.</p>
+ </header>
 
+ <!-- 1. CONTA -->
+ <section class="card">
+  <h2>1. Conecte sua conta do GitHub</h2>
+  <div id="loggedOut">
+   <p class="note">Crie um token de acesso (uma "senha" só para este app). O link abaixo já abre com as permissões certas marcadas: escolha validade de 7 dias, role até o fim e toque em <b>Generate token</b>. Depois copie o código e cole aqui.</p>
+   <div class="actions" style="margin-top:6px"><a class="linkbtn secondary" href="https://github.com/settings/tokens/new?scopes=repo,workflow&description=Assistente%20APK" target="_blank" rel="noopener">🔑 Criar token no GitHub</a></div>
+   <label class="field" for="token">Cole o token aqui</label>
+   <input id="token" type="password" placeholder="ghp_..." autocomplete="off" autocapitalize="off" spellcheck="false">
+   <label class="check"><input type="checkbox" id="remember"> Lembrar neste aparelho</label>
+   <div class="actions"><button id="connectBtn">Conectar</button></div>
+   <p class="note errtxt" id="connErr"></p>
+  </div>
+  <div id="loggedIn" class="hidden">
+   <div class="user"><img id="avatar" alt=""><div><b id="userName"></b><span id="userLogin"></span></div><button class="secondary" id="logoutBtn">Sair</button></div>
+  </div>
+  <p class="note" style="margin-top:12px">🔒 O token só é enviado para <b>api.github.com</b>. Com "Lembrar" desmarcado, ele some ao fechar a página. Nunca o compartilhe. Você pode apagá-lo a qualquer momento em GitHub → Settings → Developer settings → Tokens.</p>
+ </section>
+
+ <!-- 2. PROJETO -->
+ <section class="card">
+  <h2>2. Configure seu projeto</h2>
+  <label class="field" for="kind">Que tipo de projeto você tem?</label>
+  <select id="kind">
+   <option value="html">Projeto HTML, CSS e JavaScript</option>
+   <option value="android">Projeto Android Gradle (Java/Kotlin/C++)</option>
+  </select>
+  <p class="note" id="hint"></p>
+
+  <label class="field" for="repo">Nome do repositório</label>
+  <input id="repo" placeholder="Ex.: MeuAplicativo" autocomplete="off" autocapitalize="off">
+  <p class="note">Se não existir, ele é criado automaticamente. Se já existir, os arquivos são atualizados.</p>
+  <label class="check"><input type="checkbox" id="private" checked> Repositório privado</label>
+
+  <div id="htmlFields">
+   <label class="field" for="appName">Nome do aplicativo</label>
+   <input id="appName" placeholder="Ex.: Meu Aplicativo" autocomplete="off">
+   <label class="field" for="appId">Identificador do pacote</label>
+   <input id="appId" placeholder="Ex.: com.meusite.meuapp" autocomplete="off" autocapitalize="off">
+   <p class="note">Letras minúsculas separadas por pontos. Ele identifica o app no Android e não deve mudar depois.</p>
+  </div>
+ </section>
+
+ <!-- 3. ÍCONE -->
+ <section class="card">
+  <h2>3. Ícone do app <span class="small">(opcional)</span></h2>
+  <label class="drop" for="iconFile">
+   <b>🖼️ Escolher imagem</b>
+   <span class="note">JPEG ou PNG, de preferência quadrada e com pelo menos 512×512 pixels. Se não for quadrada, o centro será usado.</span>
+   <input type="file" id="iconFile" accept="image/jpeg,image/png,image/webp">
+  </label>
+  <div id="iconBox" class="hidden">
+   <div class="icons">
+    <figure><img id="icoSquare" alt="Ícone quadrado">Quadrado</figure>
+    <figure><img id="icoRound" alt="Ícone redondo">Redondo</figure>
+   </div>
+   <p class="note" id="iconNote"></p>
+   <div class="actions"><button class="secondary" id="iconClear">Remover ícone</button></div>
+  </div>
+  <p class="note errtxt" id="iconErr"></p>
+ </section>
+
+ <!-- 4. ARQUIVOS -->
+ <section class="card">
+  <h2>4. Escolha os arquivos do projeto</h2>
+  <div class="tabs">
+   <button id="srcFiles" class="on">📁 Arquivos</button>
+   <button id="srcPaste">📝 Colar código</button>
+  </div>
+  <div id="pasteBox" class="hidden">
+   <p class="note">Cole aqui o código HTML completo da sua página (do <code>&lt;!DOCTYPE html&gt;</code> até o <code>&lt;/html&gt;</code>). Ele vira o <b>index.html</b> do app.</p>
+   <textarea id="code" class="code" spellcheck="false" autocapitalize="off" autocomplete="off" placeholder="&lt;!DOCTYPE html&gt;&#10;&lt;html&gt;&#10;  ...&#10;&lt;/html&gt;"></textarea>
+   <div class="actions">
+    <button class="secondary" id="pasteBtn">📋 Colar da área de transferência</button>
+    <button class="secondary" id="codeClear">Apagar</button>
+   </div>
+   <p class="note" id="codeInfo"></p>
+  </div>
+  <div id="filesBox">
+  <label class="drop" for="files">
+   <b>📁 Toque para selecionar</b>
+   <span class="note" id="dropHint"></span>
+   <input type="file" id="files" multiple>
+  </label>
+  </div>
+  <div id="summary" class="hidden">
+   <p class="status" id="sumTitle"></p>
+   <div id="sumWarn"></div>
+   <pre id="sumList"></pre>
+   <div class="actions"><button class="secondary" id="clearFiles">Remover arquivos</button></div>
+  </div>
+  <p class="note errtxt" id="fileErr"></p>
+ </section>
+
+ <!-- 5. GERAR -->
+ <section class="card">
+  <h2>5. Gerar o APK</h2>
+  <button class="good big" id="sendBtn">🚀 Enviar e gerar APK</button>
+  <div id="progress" class="prog hidden">
+   <div class="progHead"><b id="stage">Preparando…</b><span id="pct">0%</span></div>
+   <div class="bar" id="bar"><i id="barFill"></i></div>
+   <ul class="log" id="log"></ul>
+   <div class="actions" id="resultLinks"></div>
+  </div>
+
+  <details>
+   <summary>Prefere fazer manualmente?</summary>
+   <label class="field" for="branch">Branch principal do repositório</label>
+   <select id="branch">
+    <option value="main">main (padrão atual do GitHub)</option>
+    <option value="master">master</option>
+   </select>
+   <p class="note errtxt" id="error"></p>
+   <div class="actions"><button id="generate">Gerar arquivo de compilação</button></div>
+   <div id="output" class="hidden">
+    <p class="status" style="margin-top:14px">✓ Configuração gerada</p>
+    <div class="actions">
+     <button id="copy">Copiar build.yml</button>
+     <button class="secondary" id="yaml">Baixar build.yml</button>
+     <button class="secondary" id="download">Baixar pacote ZIP</button>
+    </div>
+    <p class="note" id="zipNote"></p>
+    <label class="field" for="preview">Prévia do workflow</label>
+    <pre id="preview" tabindex="0"></pre>
+   </div>
+   <ol class="steps">
+    <li>Crie o repositório em <a id="newRepoLink" href="https://github.com/new" target="_blank" rel="noopener">github.com/new</a>, marcando <b>Add a README</b>.</li>
+    <li id="stepFiles"></li>
+    <li>Toque em <b>Add file → Create new file</b>, digite o nome <code>.github/workflows/build.yml</code>, cole o conteúdo copiado e toque em <b>Commit changes</b>.</li>
+    <li>Na aba <b>Actions</b>, espere o ✓ verde e baixe <b>APK-Android</b> em Artifacts.</li>
+   </ol>
+  </details>
+ </section>
+
+ <!-- 6. INSTALAÇÃO -->
+ <section class="card">
+  <h2>6. Como instalar o APK</h2>
+  <p class="note">O APK vem dentro de um ZIP. Extraia e abra o arquivo <b>.apk</b>. O Android pode pedir permissão para instalar apps de fontes desconhecidas.</p>
+  <h3>Se der erro</h3>
+  <p class="note">O app mostra em qual passo a compilação falhou. Toque em <b>Ver compilação</b> e abra esse passo para ler a mensagem completa.</p>
+  <p class="warn">O APK de depuração serve para testes. Para publicar na Play Store, você precisa de uma versão assinada, com a chave guardada em <b>Settings → Secrets</b> do repositório.</p>
+ </section>
+ <p class="small">Funciona localmente no navegador. A compilação acontece nos servidores do GitHub Actions e precisa de internet.</p>
+</main>
 <script>
-let EJS_player = "#game";
-let EJS_core = "gba";
-let EJS_pathtodata = "https://cdn.emulatorjs.org/stable/data/";
-document.getElementById('rom').addEventListener('change', function(e){
-  let file = e.target.files[0];
-  if(!file) return;
-  let url = URL.createObjectURL(file);
-  window.EJS_gameUrl = url;
-  let s = document.createElement('script');
-  s.src = "https://cdn.emulatorjs.org/stable/data/loader.js";
-  document.body.appendChild(s);
-  document.getElementById('game').innerHTML = "Carregando jogo...";
+const $=id=>document.getElementById(id);
+const enc=new TextEncoder();
+let workflow='',workflowKind='';
+let rawInputs=[];      // [{name, data:Uint8Array, isZip}]
+let project=null;      // {files:Map<path,Uint8Array>, warnings:[], errors:[], total}
+let gradleInfo={version:'8.13',source:'padrão'};
+let iconRes=null;      // Map<caminho relativo a res/, Uint8Array>
+let token='',ghUser=null;
+const ICON='ic_launcher_apkgen';
+
+/* ---------- Textos ---------- */
+const HINTS={
+ android:'Envie o projeto Android completo (com settings.gradle e a pasta do app). O gradlew é opcional.',
+ html:'Sua página principal deve se chamar index.html. O GitHub Actions cria o projeto Android com Capacitor.'
+};
+const DROP_HINTS={
+ android:'Envie o projeto compactado em um arquivo .zip.',
+ html:'Selecione os arquivos do site (index.html, .css, .js, imagens) ou um .zip com tudo dentro.'
+};
+const FILE_STEPS={
+ android:'Baixe o pacote ZIP acima, extraia e envie os arquivos para a raiz do repositório (<b>Add file → Upload files</b>).',
+ html:'Envie seus arquivos web para a pasta <b>www/</b> (<b>Add file → Upload files</b>).'
+};
+
+/* ---------- Utilidades ---------- */
+function slug(s){return s.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9]/g,'')}
+function cleanName(s){return s.replace(/[^\p{L}\p{N} ._-]/gu,'').trim()}
+function repoSlug(s){return s.trim().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/\s+/g,'-').replace(/[^A-Za-z0-9._-]/g,'')}
+function validAppId(id){return /^[a-z][a-z0-9_]*(\.[a-z][a-z0-9_]*)+$/.test(id)}
+function fmtSize(n){return n<1024?n+' B':n<1048576?(n/1024).toFixed(1)+' KB':(n/1048576).toFixed(1)+' MB'}
+function esc(s){return String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]))}
+function b64(u8){let s='';for(let i=0;i<u8.length;i+=0x8000)s+=String.fromCharCode.apply(null,u8.subarray(i,i+0x8000));return btoa(s)}
+const sleep=ms=>new Promise(r=>setTimeout(r,ms));
+const store={get(k){try{return localStorage.getItem(k)}catch(e){return null}},set(k,v){try{localStorage.setItem(k,v)}catch(e){}},del(k){try{localStorage.removeItem(k)}catch(e){}}};
+
+function flash(btn,text){
+ const orig=btn.dataset.orig||(btn.dataset.orig=btn.textContent);
+ btn.textContent=text;clearTimeout(btn._t);btn._t=setTimeout(()=>btn.textContent=orig,2000);
+}
+function save(name,blob){
+ const a=document.createElement('a'),u=URL.createObjectURL(blob);
+ a.href=u;a.download=name;document.body.appendChild(a);a.click();a.remove();
+ setTimeout(()=>URL.revokeObjectURL(u),3000);
+}
+
+/* ---------- API do GitHub ---------- */
+async function gh(path,opt={}){
+ const r=await fetch('https://api.github.com'+path,{
+  method:opt.method||'GET',
+  headers:{'Accept':'application/vnd.github+json','Authorization':'Bearer '+token,'X-GitHub-Api-Version':'2022-11-28',...(opt.body?{'Content-Type':'application/json'}:{})},
+  body:opt.body?JSON.stringify(opt.body):undefined
+ });
+ if(r.status===204)return null;
+ const j=await r.json().catch(()=>({}));
+ if(!r.ok){const e=new Error(j.message||('Erro HTTP '+r.status));e.status=r.status;e.scopes=r.headers.get('x-oauth-scopes');throw e}
+ if(opt.withHeaders)return {data:j,headers:r.headers};
+ return j;
+}
+function friendly(e){
+ const m=e.message||'';
+ if(e.status===401)return 'Token inválido ou expirado. Crie um novo token e conecte de novo.';
+ if(/workflow/i.test(m))return 'O token não tem a permissão "workflow". Crie um novo token pelo botão do passo 1 (ele já marca tudo certo).';
+ if(e.status===403&&/rate limit/i.test(m))return 'Limite de requisições do GitHub atingido. Espere alguns minutos e tente de novo.';
+ if(e.status===403||e.status===404)return 'Sem permissão para acessar ou criar o repositório. Verifique se o token tem a permissão "repo". ('+m+')';
+ if(m==='Failed to fetch')return 'Falha de conexão com o GitHub. Verifique sua internet.';
+ return m;
+}
+
+/* ---------- Conexão com a conta ---------- */
+async function connect(t,silent){
+ token=t;$('connErr').textContent='';
+ $('connectBtn').disabled=true;$('connectBtn').textContent='Conectando…';
+ try{
+  const {data:user,headers}=await gh('/user',{withHeaders:true});
+  const scopes=(headers.get('x-oauth-scopes')||'').split(',').map(s=>s.trim());
+  if(headers.get('x-oauth-scopes')!==null&&!(scopes.includes('repo')&&scopes.includes('workflow')))
+   throw Object.assign(new Error('Este token não tem as permissões "repo" e "workflow". Crie outro pelo botão "Criar token no GitHub".'),{status:0});
+  ghUser=user;
+  if($('remember').checked)store.set('apkgen_token',t);
+  $('avatar').src=user.avatar_url;$('userName').textContent=user.name||user.login;$('userLogin').textContent='Conectado como @'+user.login;
+  $('loggedOut').classList.add('hidden');$('loggedIn').classList.remove('hidden');
+  $('token').value='';
+ }catch(e){
+  token='';ghUser=null;
+  if(silent)store.del('apkgen_token');
+  $('connErr').textContent=e.status===0?e.message:friendly(e);
+ }finally{
+  $('connectBtn').disabled=false;$('connectBtn').textContent='Conectar';
+ }
+}
+$('connectBtn').onclick=()=>{const t=$('token').value.trim();if(!t){$('connErr').textContent='Cole o token primeiro.';return}connect(t)};
+$('logoutBtn').onclick=()=>{token='';ghUser=null;store.del('apkgen_token');$('loggedIn').classList.add('hidden');$('loggedOut').classList.remove('hidden')};
+$('remember').onchange=()=>{if(!$('remember').checked)store.del('apkgen_token');else if(token)store.set('apkgen_token',token)};
+
+/* ---------- Configuração do app ---------- */
+function getConfig(){
+ const kind=$('kind').value,repo=$('repo').value.trim();
+ let appName='',appId='';
+ if(kind==='html'){
+  appName=cleanName($('appName').value)||cleanName(repo)||'Meu App';
+  appId=$('appId').value.trim().toLowerCase()||('com.'+(slug(repo)||'meuapp')+'.app');
+  if(!validAppId(appId)) throw new Error('Identificador inválido. Use algo como com.meusite.meuapp (minúsculas, pelo menos um ponto, cada parte começando com letra).');
+ }
+ return {kind,repo,appName,appId};
+}
+
+/* ---------- Gradle ---------- */
+function detectGradle(files){
+ const dec=new TextDecoder();let txt='';
+ for(const p of ['build.gradle','build.gradle.kts','settings.gradle','settings.gradle.kts','gradle/libs.versions.toml','gradle/wrapper/gradle-wrapper.properties'])
+  if(files.has(p))txt+='\n'+dec.decode(files.get(p));
+ const wrap=txt.match(/gradle-(\d+\.\d+(?:\.\d+)?)-(?:bin|all)\.zip/);
+ if(wrap)return {version:wrap[1],source:'gradle-wrapper.properties'};
+ const agp=txt.match(/com\.android\.tools\.build:gradle:(\d+)\.(\d+)/)
+  ||txt.match(/id\s*\(?\s*["']com\.android\.(?:application|library)["']\s*\)?\s*version\s*["'](\d+)\.(\d+)/)
+  ||txt.match(/^\s*(?:agp|androidGradlePlugin|android-gradle-plugin|androidGradle)\s*=\s*["'](\d+)\.(\d+)/m);
+ if(!agp)return {version:'8.13',source:'padrão'};
+ const M=+agp[1],m=+agp[2],v=M+'.'+m;
+ if(M>=9)return {version:'9.1.0',source:'AGP '+v};
+ if(M===8)return {version:'8.13',source:'AGP '+v};
+ if(M===7)return {version:m>=4?'7.6.4':m>=3?'7.5.1':m>=2?'7.4.2':'7.3.3',source:'AGP '+v};
+ return {version:'6.9.4',source:'AGP '+v};
+}
+
+/* ---------- Workflow ---------- */
+function makeWorkflow(kind,branch,appName,appId,gradleVersion='8.13'){
+ const trigger=`on:
+  workflow_dispatch:
+  push:
+    branches: [ ${branch} ]`;
+ if(kind==='android') return `name: Gerar APK
+${trigger}
+permissions:
+  contents: read
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Baixar projeto
+        uses: actions/checkout@v4
+      - name: Conferir projeto
+        run: |
+          [ -f settings.gradle ] || [ -f settings.gradle.kts ] || [ -f build.gradle ] || [ -f build.gradle.kts ] || { echo "::error::settings.gradle ou build.gradle não encontrado na raiz do repositório"; exit 1; }
+      - name: Configurar Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+      - name: Preparar Gradle
+        uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: '${gradleVersion}'
+      - name: Compilar APK
+        run: |
+          if [ -f gradlew ] && [ -f gradle/wrapper/gradle-wrapper.jar ]; then
+            chmod +x ./gradlew
+            ./gradlew assembleDebug --stacktrace
+          else
+            echo "Projeto sem Gradle Wrapper: usando Gradle ${gradleVersion}"
+            gradle assembleDebug --stacktrace
+          fi
+      - name: Publicar APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: APK-Android
+          path: '**/build/outputs/apk/debug/*.apk'
+          if-no-files-found: error
+`;
+ return `name: Gerar APK
+${trigger}
+permissions:
+  contents: read
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Baixar projeto
+        uses: actions/checkout@v4
+      - name: Conferir página principal
+        run: test -f www/index.html || { echo "::error::Coloque sua página em www/index.html"; exit 1; }
+      - name: Configurar Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+      - name: Configurar Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Preparar projeto Capacitor
+        run: |
+          [ -f package.json ] || npm init -y
+          npm install @capacitor/core@^6 @capacitor/android@^6
+          npm install -D @capacitor/cli@^6
+          [ -f capacitor.config.json ] || [ -f capacitor.config.ts ] || npx cap init "${appName}" "${appId}" --web-dir=www
+          [ -d android ] || npx cap add android
+          npx cap sync android
+      - name: Aplicar ícone personalizado
+        run: |
+          if [ -d assistente-icone/res ]; then
+            cp -r assistente-icone/res/. android/app/src/main/res/
+            sed -i 's#@mipmap/ic_launcher_round"#@mipmap/${ICON}_round"#; s#@mipmap/ic_launcher"#@mipmap/${ICON}"#' android/app/src/main/AndroidManifest.xml
+            echo "Ícone aplicado"
+          else
+            echo "Sem ícone personalizado"
+          fi
+      - name: Compilar APK
+        working-directory: android
+        run: |
+          chmod +x ./gradlew
+          ./gradlew assembleDebug
+      - name: Publicar APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: APK-Android
+          path: android/app/build/outputs/apk/debug/*.apk
+          if-no-files-found: error
+`;
+}
+
+/* ---------- Ícone ---------- */
+const DENS={mdpi:1,hdpi:1.5,xhdpi:2,xxhdpi:3,xxxhdpi:4};
+function toPng(size,draw){
+ const c=document.createElement('canvas');c.width=c.height=size;
+ const x=c.getContext('2d');x.imageSmoothingEnabled=true;x.imageSmoothingQuality='high';draw(x,size);
+ return new Promise((res,rej)=>c.toBlob(b=>b?b.arrayBuffer().then(a=>res(new Uint8Array(a))):rej(new Error('Falha ao criar PNG')),'image/png'));
+}
+function cornerColor(bmp){
+ const c=document.createElement('canvas');c.width=c.height=16;const x=c.getContext('2d');
+ x.drawImage(bmp,0,0,16,16);const d=x.getImageData(0,0,16,16).data;
+ let r=0,g=0,b=0;for(const [px,py] of [[0,0],[15,0],[0,15],[15,15]]){const i=(py*16+px)*4;r+=d[i];g+=d[i+1];b+=d[i+2]}
+ return `rgb(${r>>2},${g>>2},${b>>2})`;
+}
+async function buildIcon(file){
+ const bmp=await createImageBitmap(file);
+ const s=Math.min(bmp.width,bmp.height),sx=(bmp.width-s)/2,sy=(bmp.height-s)/2;
+ const bg=cornerColor(bmp);
+ const img=(x,dx,dy,dw)=>x.drawImage(bmp,sx,sy,s,s,dx,dy,dw,dw);
+ const rounded=(x,n,r)=>{x.beginPath();x.moveTo(r,0);x.arcTo(n,0,n,n,r);x.arcTo(n,n,0,n,r);x.arcTo(0,n,0,0,r);x.arcTo(0,0,n,0,r);x.closePath()};
+ const res=new Map();
+ for(const [d,k] of Object.entries(DENS)){
+  const L=Math.round(48*k),A=Math.round(108*k),pad=Math.round(18*k),vis=A-2*pad;
+  res.set(`mipmap-${d}/${ICON}.png`,await toPng(L,(x,n)=>{rounded(x,n,n*0.18);x.clip();img(x,0,0,n)}));
+  res.set(`mipmap-${d}/${ICON}_round.png`,await toPng(L,(x,n)=>{x.beginPath();x.arc(n/2,n/2,n/2,0,Math.PI*2);x.clip();img(x,0,0,n)}));
+  res.set(`mipmap-${d}/${ICON}_fg.png`,await toPng(A,x=>img(x,pad,pad,vis)));
+  res.set(`mipmap-${d}/${ICON}_bg.png`,await toPng(A,(x,n)=>{x.fillStyle=bg;x.fillRect(0,0,n,n)}));
+ }
+ const xml=`<?xml version="1.0" encoding="utf-8"?>
+<adaptive-icon xmlns:android="http://schemas.android.com/apk/res/android">
+    <background android:drawable="@mipmap/${ICON}_bg"/>
+    <foreground android:drawable="@mipmap/${ICON}_fg"/>
+</adaptive-icon>
+`;
+ res.set(`mipmap-anydpi-v26/${ICON}.xml`,enc.encode(xml));
+ res.set(`mipmap-anydpi-v26/${ICON}_round.xml`,enc.encode(xml));
+ const small=s<192;
+ bmp.close&&bmp.close();
+ return {res,small};
+}
+function patchManifest(xml){
+ const m=xml.match(/<application\b[^>]*>/);if(!m)return null;
+ let tag=m[0];
+ const set=(attr,val)=>{const re=new RegExp(attr.replace(':','\\:')+'\\s*=\\s*"[^"]*"');tag=re.test(tag)?tag.replace(re,attr+'="'+val+'"'):tag.replace(/<application\b/,'<application '+attr+'="'+val+'"')};
+ set('android:icon','@mipmap/'+ICON);set('android:roundIcon','@mipmap/'+ICON+'_round');
+ return xml.replace(m[0],tag);
+}
+function findAppModule(files){
+ const dec=new TextDecoder();
+ const mans=[...files.keys()].filter(p=>/(^|\/)src\/main\/AndroidManifest\.xml$/.test(p));
+ for(const man of mans){
+  const dir=man.replace(/src\/main\/AndroidManifest\.xml$/,'');
+  for(const b of ['build.gradle','build.gradle.kts'])
+   if(files.has(dir+b)&&/com\.android\.application|android\.application/.test(dec.decode(files.get(dir+b))))return dir;
+ }
+ return mans.includes('app/src/main/AndroidManifest.xml')?'app/':(mans[0]?mans[0].replace(/src\/main\/AndroidManifest\.xml$/,''):null);
+}
+// Junta arquivos do projeto + ícone
+function finalFiles(kind){
+ const out=new Map(project?project.files:[]);const notes=[];
+ if(iconRes){
+  if(kind==='html'){
+   for(const [p,d] of iconRes)out.set('assistente-icone/res/'+p,d);
+  } else {
+   const mod=findAppModule(out);
+   if(mod===null)notes.push('Não encontrei o AndroidManifest.xml do app, então o ícone não foi aplicado.');
+   else{
+    const manPath=mod+'src/main/AndroidManifest.xml';
+    const patched=patchManifest(new TextDecoder().decode(out.get(manPath)));
+    if(!patched)notes.push('Não consegui editar o AndroidManifest.xml, então o ícone não foi aplicado.');
+    else{out.set(manPath,enc.encode(patched));for(const [p,d] of iconRes)out.set(mod+'src/main/res/'+p,d)}
+   }
+  }
+ }
+ return {files:out,notes};
+}
+
+let iconUrls=[];
+$('iconFile').addEventListener('change',async ev=>{
+ const f=ev.target.files[0];ev.target.value='';if(!f)return;
+ $('iconErr').textContent='Gerando ícones…';
+ try{
+  const {res,small}=await buildIcon(f);iconRes=res;
+  iconUrls.forEach(u=>URL.revokeObjectURL(u));
+  iconUrls=[URL.createObjectURL(new Blob([res.get(`mipmap-xxxhdpi/${ICON}.png`)],{type:'image/png'})),URL.createObjectURL(new Blob([res.get(`mipmap-xxxhdpi/${ICON}_round.png`)],{type:'image/png'}))];
+  $('icoSquare').src=iconUrls[0];$('icoRound').src=iconUrls[1];
+  $('iconNote').textContent='✓ '+res.size+' arquivos de ícone gerados (todas as resoluções + ícone adaptável).'+(small?' ⚠ A imagem é pequena e pode ficar borrada.':'');
+  $('iconBox').classList.remove('hidden');$('iconErr').textContent='';
+ }catch(e){$('iconErr').textContent='Não consegui ler a imagem: '+e.message}
 });
+$('iconClear').onclick=()=>{iconRes=null;$('iconBox').classList.add('hidden')};
+
+/* ---------- Leitura de ZIP (sem bibliotecas) ---------- */
+async function inflateRaw(u8){
+ if(typeof DecompressionStream==='undefined') throw new Error('Seu navegador não consegue abrir ZIP. Atualize o Chrome ou selecione os arquivos soltos.');
+ const stream=new Blob([u8]).stream().pipeThrough(new DecompressionStream('deflate-raw'));
+ return new Uint8Array(await new Response(stream).arrayBuffer());
+}
+async function readZip(u8){
+ const dv=new DataView(u8.buffer,u8.byteOffset,u8.byteLength);
+ let eocd=-1;
+ for(let i=u8.length-22;i>=Math.max(0,u8.length-65558);i--){if(dv.getUint32(i,true)===0x06054b50){eocd=i;break}}
+ if(eocd<0) throw new Error('Arquivo ZIP inválido ou corrompido.');
+ const count=dv.getUint16(eocd+10,true);let p=dv.getUint32(eocd+16,true);
+ if(p===0xffffffff) throw new Error('ZIP grande demais (formato ZIP64 não suportado).');
+ const dec=new TextDecoder(),out=[];
+ for(let n=0;n<count;n++){
+  if(dv.getUint32(p,true)!==0x02014b50) throw new Error('Estrutura do ZIP inválida.');
+  const flags=dv.getUint16(p+8,true),method=dv.getUint16(p+10,true),comp=dv.getUint32(p+20,true);
+  const nl=dv.getUint16(p+28,true),el=dv.getUint16(p+30,true),cl=dv.getUint16(p+32,true),lo=dv.getUint32(p+42,true);
+  const name=dec.decode(u8.subarray(p+46,p+46+nl));p+=46+nl+el+cl;
+  if(name.endsWith('/'))continue;
+  if(flags&1) throw new Error('ZIP protegido por senha não é suportado.');
+  const start=lo+30+dv.getUint16(lo+26,true)+dv.getUint16(lo+28,true);
+  const raw=u8.subarray(start,start+comp);
+  let data;
+  if(method===0)data=raw.slice();
+  else if(method===8)data=await inflateRaw(raw);
+  else throw new Error('Compressão não suportada em "'+name+'".');
+  out.push({path:name,data});
+ }
+ return out;
+}
+
+/* ---------- Montagem do projeto ---------- */
+const IGNORE_ALWAYS=new Set(['.git','__MACOSX','node_modules','.DS_Store','Thumbs.db']);
+const IGNORE_ANDROID=new Set(['build','.gradle','.idea','.cxx','local.properties','captures','.externalNativeBuild']);
+
+async function processInputs(){
+ const kind=$('kind').value;
+ const errors=[],warnings=[];
+ let entries=[];
+ for(const inp of rawInputs){
+  if(inp.isZip){
+   try{entries.push(...(await readZip(inp.data)))}catch(e){errors.push(inp.name+': '+e.message)}
+  } else entries.push({path:inp.name,data:inp.data});
+ }
+ entries=entries.map(e=>({path:e.path.replace(/\\/g,'/').replace(/^(\.\/|\/)+/,''),data:e.data}))
+  .filter(e=>e.path&&!e.path.split('/').some(seg=>seg==='..'||IGNORE_ALWAYS.has(seg)||(kind==='android'&&IGNORE_ANDROID.has(seg))));
+ while(entries.length&&entries.every(e=>e.path.includes('/'))){
+  const top=entries[0].path.split('/')[0];
+  if(top==='www'||!entries.every(e=>e.path.startsWith(top+'/')))break;
+  entries=entries.map(e=>({path:e.path.slice(top.length+1),data:e.data}));
+ }
+ const files=new Map();
+ if(kind==='html'){
+  const hasWww=entries.some(e=>e.path.startsWith('www/'));
+  for(const e of entries)files.set(hasWww?e.path:'www/'+e.path,e.data);
+  if(!files.has('www/index.html')){
+   const htmls=[...files.keys()].filter(p=>/^www\/[^/]+\.html?$/i.test(p));
+   if(htmls.length===1){files.set('www/index.html',files.get(htmls[0]));files.delete(htmls[0]);warnings.push(htmls[0].slice(4)+' foi renomeado para index.html.')}
+   else if(files.size)errors.push('Não encontrei index.html. Renomeie sua página principal para index.html.');
+  }
+ } else {
+  for(const e of entries)files.set(e.path,e.data);
+  if(files.size){
+   const hasRoot=['settings.gradle','settings.gradle.kts','build.gradle','build.gradle.kts'].some(p=>files.has(p));
+   if(!hasRoot)errors.push('Não encontrei settings.gradle nem build.gradle na raiz do projeto. Envie o projeto inteiro em um .zip.');
+   const g=detectGradle(files);gradleInfo=g;
+   if(!files.has('gradlew')||!files.has('gradle/wrapper/gradle-wrapper.jar'))
+    warnings.push('Projeto sem Gradle Wrapper (gradlew). Sem problema: o GitHub vai instalar o Gradle '+g.version+' automaticamente (versão escolhida por: '+g.source+').');
+   if(rawInputs.some(i=>!i.isZip))warnings.push('Para projetos Android, envie tudo em um único .zip para manter as pastas.');
+  }
+ }
+ for(const p of [...files.keys()])if(/^\.github\/workflows\/[^/]+\.ya?ml$/i.test(p)){
+  files.delete(p);
+  if(p!=='.github/workflows/build.yml')warnings.push(p+' foi deixado de fora para não rodar duas compilações ao mesmo tempo.');
+ }
+ let total=0;for(const d of files.values())total+=d.length;
+ if(total>80*1048576)errors.push('O projeto tem '+fmtSize(total)+'. O limite recomendado é 80 MB.');
+ for(const [p,d] of files)if(d.length>50*1048576)errors.push(p+' tem mais de 50 MB, o que o GitHub não aceita bem.');
+ project={files,warnings,errors,total};
+ renderSummary();
+}
+
+function renderSummary(){
+ $('fileErr').textContent='';
+ if(!project||(!project.files.size&&!project.errors.length)){$('summary').classList.add('hidden');return}
+ $('summary').classList.remove('hidden');
+ const n=project.files.size,bad=project.errors.length;
+ $('sumTitle').textContent=!n?'Nenhum arquivo utilizável':(bad?'⚠ '+n+' arquivo'+(n>1?'s':'')+' ('+fmtSize(project.total)+'), mas há problemas':'✓ '+n+' arquivo'+(n>1?'s':'')+' prontos ('+fmtSize(project.total)+')');
+ $('sumTitle').className=bad?'status errtxt':'status';
+ $('sumWarn').innerHTML=[...project.errors.map(e=>'<p class="note errtxt">✗ '+esc(e)+'</p>'),...project.warnings.map(w=>'<p class="note">⚠ '+esc(w)+'</p>')].join('');
+ const paths=[...project.files.keys()].sort();
+ $('sumList').textContent=paths.slice(0,60).join('\n')+(paths.length>60?'\n… e mais '+(paths.length-60):'');
+ updateZipNote();
+}
+
+$('files').addEventListener('change',async ev=>{
+ const list=[...ev.target.files];ev.target.value='';
+ if(!list.length)return;
+ $('fileErr').textContent='Lendo arquivos…';
+ try{
+  for(const f of list){
+   const data=new Uint8Array(await f.arrayBuffer());
+   rawInputs=rawInputs.filter(r=>r.name!==f.name);
+   rawInputs.push({name:f.name,data,isZip:/\.zip$/i.test(f.name)});
+  }
+  if(!$('repo').value.trim()){
+   const z=list.find(f=>/\.zip$/i.test(f.name));
+   if(z){$('repo').value=repoSlug(z.name.replace(/\.zip$/i,''));updateUI()}
+  }
+  await processInputs();
+ }catch(e){$('fileErr').textContent='Erro ao ler arquivos: '+e.message}
+});
+$('clearFiles').onclick=()=>{rawInputs=[];project=null;$('code').value='';codeInfo();renderSummary()};
+
+/* ---------- Colar código ---------- */
+let pasteMode=false,codeT=0;
+function setSource(paste){
+ pasteMode=paste;
+ $('srcPaste').classList.toggle('on',paste);$('srcFiles').classList.toggle('on',!paste);
+ $('pasteBox').classList.toggle('hidden',!paste);$('filesBox').classList.toggle('hidden',paste);
+ rawInputs=[];project=null;renderSummary();
+ if(paste){
+  // código colado é sempre uma página HTML
+  if($('kind').value!=='html'){$('kind').value='html';updateUI();}
+  useCode();
+ }
+}
+function codeInfo(){
+ const t=$('code').value;
+ if(!t.trim()){$('codeInfo').textContent='';return}
+ const kb=(new TextEncoder().encode(t).length/1024).toFixed(1);
+ const ok=/<html[\s>]/i.test(t)||/<body[\s>]/i.test(t)||/<!doctype html/i.test(t);
+ $('codeInfo').textContent=(ok?'✓ ':'⚠ ')+t.split('\n').length+' linhas · '+kb+' KB'+(ok?'':' · não parece uma página HTML completa; confira se colou tudo');
+}
+function useCode(){
+ const t=$('code').value;
+ codeInfo();
+ if(!t.trim()){rawInputs=[];project=null;renderSummary();return}
+ rawInputs=[{name:'index.html',data:new TextEncoder().encode(t),isZip:false}];
+ // usa o <title> da página como nome do app e do repositório, se ainda estiverem vazios
+ const m=t.match(/<title[^>]*>([^<]{1,80})<\/title>/i);
+ if(m){
+  const title=m[1].replace(/\s+/g,' ').trim();
+  if(title&&!$('repo').value.trim()){$('repo').value=repoSlug(title).slice(0,60);}
+  if(title&&!$('appName').value.trim()){$('appName').value=cleanName(title).slice(0,40);}
+  updateUI();
+ }
+ processInputs();
+}
+$('srcFiles').onclick=()=>setSource(false);
+$('srcPaste').onclick=()=>setSource(true);
+$('code').addEventListener('input',()=>{clearTimeout(codeT);codeT=setTimeout(useCode,400)});
+$('codeClear').onclick=()=>{$('code').value='';useCode();$('code').focus()};
+$('pasteBtn').onclick=async()=>{
+ try{const t=await navigator.clipboard.readText();if(!t){$('fileErr').textContent='A área de transferência está vazia.';return}$('code').value=t;$('fileErr').textContent='';useCode();}
+ catch(e){$('fileErr').textContent='O navegador não deixou ler a área de transferência. Toque e segure dentro da caixa e escolha "Colar".';$('code').focus()}
+};
+
+/* ---------- Interface ---------- */
+function updateUI(){
+ const kind=$('kind').value;
+ $('hint').textContent=HINTS[kind];
+ $('dropHint').textContent=DROP_HINTS[kind];
+ $('files').accept=kind==='android'?'.zip,application/zip':'';
+ $('stepFiles').innerHTML=FILE_STEPS[kind];
+ $('htmlFields').classList.toggle('hidden',kind!=='html');
+ const repo=repoSlug($('repo').value);
+ $('newRepoLink').href='https://github.com/new'+(repo?'?name='+encodeURIComponent(repo):'');
+ const base=slug($('repo').value)||'meuapp';
+ $('appName').placeholder=$('repo').value.trim()?cleanName($('repo').value):'Ex.: Meu Aplicativo';
+ $('appId').placeholder='Ex.: com.'+base+'.app';
+ if(workflow){try{buildManual(false)}catch(e){}}
+}
+function updateZipNote(){
+ $('zipNote').textContent=project&&project.files.size
+  ?'O ZIP inclui seus '+project.files.size+' arquivos na estrutura certa'+(iconRes?', o ícone':'')+' e o workflow.'
+  :'Sem arquivos selecionados, o ZIP contém só o workflow.';
+}
+$('kind').addEventListener('change',()=>{if(pasteMode&&$('kind').value!=='html')setSource(false);updateUI();if(rawInputs.length)processInputs()});
+$('branch').addEventListener('change',updateUI);
+['repo','appName','appId'].forEach(id=>$(id).addEventListener('input',updateUI));
+
+/* ---------- Modo manual ---------- */
+function buildManual(scroll){
+ const c=getConfig();
+ workflow=makeWorkflow(c.kind,$('branch').value,c.appName,c.appId,gradleInfo.version);
+ workflowKind=c.kind;
+ $('preview').textContent=workflow;
+ $('output').classList.remove('hidden');
+ updateZipNote();
+ if(scroll)$('output').scrollIntoView({behavior:'smooth'});
+}
+$('generate').onclick=()=>{$('error').textContent='';try{buildManual(true)}catch(e){$('error').textContent=e.message}};
+$('yaml').onclick=()=>{if(workflow){save('build.yml',new Blob([workflow],{type:'text/yaml'}));flash($('yaml'),'Baixado!')}};
+$('copy').onclick=async()=>{
+ if(!workflow)return;
+ try{await navigator.clipboard.writeText(workflow);flash($('copy'),'Copiado!')}
+ catch(e){
+  const r=document.createRange();r.selectNodeContents($('preview'));
+  const s=getSelection();s.removeAllRanges();s.addRange(r);
+  flash($('copy'),'Selecionado: copie manualmente');
+ }
+};
+
+function makeZip(files){ // files: [{name, data:Uint8Array}]
+ const parts=[],central=[];let offset=0;
+ const crcTable=(()=>{const t=[];for(let n=0;n<256;n++){let c=n;for(let k=0;k<8;k++)c=(c&1)?(0xedb88320^(c>>>1)):(c>>>1);t[n]=c>>>0}return t})();
+ const crc=b=>{let c=0xffffffff;for(let i=0;i<b.length;i++)c=crcTable[(c^b[i])&255]^(c>>>8);return (c^0xffffffff)>>>0};
+ const hdr=(arr)=>{const u=new Uint8Array(arr.length);arr.forEach((v,i)=>u[i]=v);return u};
+ const u16=n=>[n&255,(n>>>8)&255],u32=n=>[n&255,(n>>>8)&255,(n>>>16)&255,(n>>>24)&255];
+ const d=new Date();
+ const dosTime=(d.getHours()<<11)|(d.getMinutes()<<5)|(d.getSeconds()>>1);
+ const dosDate=((d.getFullYear()-1980)<<9)|((d.getMonth()+1)<<5)|d.getDate();
+ for(const f of files){
+  const name=enc.encode(f.name),data=f.data,sum=crc(data);
+  const exec=f.name==='gradlew';
+  const local=hdr([...u32(0x04034b50),...u16(20),...u16(0x0800),...u16(0),...u16(dosTime),...u16(dosDate),...u32(sum),...u32(data.length),...u32(data.length),...u16(name.length),...u16(0),...name]);
+  parts.push(local,data);
+  central.push(hdr([...u32(0x02014b50),...u16(exec?0x0314:20),...u16(20),...u16(0x0800),...u16(0),...u16(dosTime),...u16(dosDate),...u32(sum),...u32(data.length),...u32(data.length),...u16(name.length),...u16(0),...u16(0),...u16(0),...u16(0),...u32(exec?(0o100755<<16)>>>0:0),...u32(offset),...name]));
+  offset+=local.length+data.length;
+ }
+ const centralSize=central.reduce((s,x)=>s+x.length,0),count=files.length;
+ const end=hdr([...u32(0x06054b50),...u16(0),...u16(0),...u16(count),...u16(count),...u32(centralSize),...u32(offset),...u16(0)]);
+ return new Blob([...parts,...central,end],{type:'application/zip'});
+}
+$('download').onclick=()=>{
+ if(!workflow)return;
+ const files=[{name:'.github/workflows/build.yml',data:enc.encode(workflow)}];
+ if(project&&project.files.size){for(const [p,d] of finalFiles(workflowKind).files)files.push({name:p,data:d})}
+ else files.push({name:'LEIA-ME.txt',data:enc.encode('Coloque estes arquivos na raiz do seu repositório GitHub.\nO workflow deve ficar em .github/workflows/build.yml.\n'+(workflowKind==='html'?'Coloque o site em www/index.html e os arquivos relacionados dentro de www/.':'Mantenha a estrutura Gradle do projeto.')+'\n')});
+ save((repoSlug($('repo').value)||'Projeto')+'-APK.zip',makeZip(files));
+ flash($('download'),'Baixado!');
+};
+
+/* ---------- Progresso ---------- */
+function log(msg,cls){const li=document.createElement('li');li.textContent=msg;if(cls)li.className=cls;$('log').appendChild(li);return li}
+function setProg(p,stage,isErr){
+ p=Math.max(0,Math.min(100,Math.round(p)));
+ $('barFill').style.width=p+'%';$('pct').textContent=p+'%';
+ if(stage)$('stage').textContent=stage;
+ $('bar').classList.toggle('err',!!isErr);
+}
+function linkBtn(text,href,secondary){const a=document.createElement('a');a.className='linkbtn'+(secondary?' secondary':'');a.href=href;a.target='_blank';a.rel='noopener';a.textContent=text;$('resultLinks').appendChild(a)}
+async function runPool(items,limit,fn){
+ let i=0;const workers=Array.from({length:Math.min(limit,items.length)},async()=>{while(i<items.length){const k=i++;await fn(items[k],k)}});
+ await Promise.all(workers);
+}
+// Faixas da barra: 0-5 conta, 5-35 envio, 35-40 commit, 40-45 fila, 45-99 compilação
+let sending=false;
+$('sendBtn').onclick=async()=>{
+ if(sending)return;
+ $('log').innerHTML='';$('resultLinks').innerHTML='';
+ $('progress').classList.remove('hidden');setProg(0,'Preparando…');
+ const fail=msg=>{log('✗ '+msg,'err');setProg(parseInt($('pct').textContent)||0,'Não foi possível continuar',true)};
+ let cfg;
+ try{cfg=getConfig()}catch(e){return fail(e.message)}
+ const repoName=repoSlug(cfg.repo);
+ if(!ghUser||!token)return fail('Conecte sua conta do GitHub no passo 1.');
+ if(!repoName)return fail('Informe o nome do repositório no passo 2.');
+ if(!project||!project.files.size)return fail('Selecione os arquivos do projeto no passo 4.');
+ if(project.errors.length)return fail('Corrija os problemas dos arquivos no passo 4 antes de enviar.');
+
+ sending=true;$('sendBtn').disabled=true;
+ $('progress').scrollIntoView({behavior:'smooth',block:'start'});
+ try{
+  const owner=ghUser.login;
+  setProg(2,'Procurando repositório…');
+  let li=log('Procurando repositório '+repoName+'…'),repo;
+  try{repo=await gh(`/repos/${owner}/${repoName}`);li.textContent='✓ Repositório encontrado: '+repo.full_name;li.className='ok'}
+  catch(e){
+   if(e.status!==404)throw e;
+   setProg(3,'Criando repositório…');
+   repo=await gh('/user/repos',{method:'POST',body:{name:repoName,private:$('private').checked,auto_init:true,description:'Gerado pelo Assistente APK'}});
+   li.textContent='✓ Repositório criado: '+repo.full_name;li.className='ok';
+   await sleep(2500);
+  }
+  const full=repo.full_name,branch=repo.default_branch||'main';
+  setProg(5);
+
+  let ref;
+  try{ref=await gh(`/repos/${full}/git/ref/heads/${branch}`)}
+  catch(e){
+   if(e.status!==404&&e.status!==409)throw e;
+   await gh(`/repos/${full}/contents/README.md`,{method:'PUT',body:{message:'Início',content:b64(enc.encode('# '+repoName+'\n'))}});
+   await sleep(1500);
+   ref=await gh(`/repos/${full}/git/ref/heads/${branch}`);
+  }
+  const baseSha=ref.object.sha;
+  const baseCommit=await gh(`/repos/${full}/git/commits/${baseSha}`);
+
+  const {files,notes}=finalFiles(cfg.kind);
+  notes.forEach(n=>log('⚠ '+n));
+  if(iconRes&&!notes.length)log('✓ Ícone personalizado incluído','ok');
+  const wf=makeWorkflow(cfg.kind,branch,cfg.appName,cfg.appId,gradleInfo.version);
+  const list=[...files].map(([path,data])=>({path,data}));
+  list.push({path:'.github/workflows/build.yml',data:enc.encode(wf)});
+
+  li=log('Enviando arquivos…');
+  let done=0;const tree=[];
+  setProg(5,'Enviando arquivos (0/'+list.length+')');
+  await runPool(list,4,async f=>{
+   let blob,tries=0;
+   while(true){
+    try{blob=await gh(`/repos/${full}/git/blobs`,{method:'POST',body:{content:b64(f.data),encoding:'base64'}});break}
+    catch(e){if(++tries>=3||e.status===401)throw e;await sleep(2000*tries)}
+   }
+   tree.push({path:f.path,mode:f.path==='gradlew'?'100755':'100644',type:'blob',sha:blob.sha});
+   done++;setProg(5+30*done/list.length,'Enviando arquivos ('+done+'/'+list.length+')');
+  });
+  li.textContent='✓ '+list.length+' arquivos enviados';li.className='ok';
+
+  setProg(36,'Salvando no GitHub…');
+  const newTree=await gh(`/repos/${full}/git/trees`,{method:'POST',body:{base_tree:baseCommit.tree.sha,tree}});
+  const commit=await gh(`/repos/${full}/git/commits`,{method:'POST',body:{message:'Enviar projeto pelo Assistente APK',tree:newTree.sha,parents:[baseSha]}});
+  await gh(`/repos/${full}/git/refs/heads/${branch}`,{method:'PATCH',body:{sha:commit.sha}});
+  log('✓ Projeto salvo na branch '+branch,'ok');
+  setProg(40,'Aguardando a compilação começar…');
+  linkBtn('Abrir repositório',repo.html_url,true);
+
+  await watchRun(full,commit.sha,repo.html_url);
+ }catch(e){
+  fail(friendly(e));
+ }finally{
+  sending=false;$('sendBtn').disabled=false;
+ }
+};
+
+async function watchRun(full,sha,repoUrl){
+ const li=log('⏳ Aguardando a compilação começar…');
+ const started=Date.now();let run=null,linked=false;
+ while(Date.now()-started<45*60*1000){
+  await sleep(5000);
+  let r;
+  try{r=await gh(`/repos/${full}/actions/runs?head_sha=${sha}&per_page=10`)}catch(e){continue}
+  const runs=r.workflow_runs||[];
+  run=runs.find(x=>x.path==='.github/workflows/build.yml')||runs[0];
+  if(!run){
+   if(Date.now()-started>120000){
+    li.textContent='✗ A compilação não começou. Verifique se Actions está ativado em Settings → Actions.';li.className='err';
+    setProg(40,'Compilação não iniciou',true);linkBtn('Abrir Actions',repoUrl+'/actions',true);return;
+   }
+   continue;
+  }
+  if(!linked){linkBtn('Ver compilação',run.html_url,true);linked=true}
+  // Passos reais do job para a barra de progresso
+  let job=null;
+  try{const j=await gh(`/repos/${full}/actions/runs/${run.id}/jobs`);job=(j.jobs||[])[0]}catch(e){}
+  const secs=Math.floor((Date.now()-started)/1000),tempo=Math.floor(secs/60)+':'+String(secs%60).padStart(2,'0');
+  if(run.status!=='completed'){
+   if(job&&job.steps&&job.steps.length){
+    const total=job.steps.length,done=job.steps.filter(s=>s.status==='completed').length;
+    const cur=job.steps.find(s=>s.status==='in_progress');
+    setProg(45+54*done/total,'Compilando: '+(cur?cur.name:'preparando')+' ('+tempo+')');
+    li.textContent='⚙️ Compilando… passo '+Math.min(done+1,total)+' de '+total;
+   } else {
+    setProg(42,(run.status==='queued'?'Na fila do GitHub':'Iniciando máquina')+' ('+tempo+')');
+    li.textContent='⏳ Na fila do GitHub…';
+   }
+   continue;
+  }
+  if(run.conclusion==='success'){
+   setProg(100,'✓ APK pronto!');li.textContent='✓ APK gerado com sucesso!';li.className='ok';
+   try{
+    const a=await gh(`/repos/${full}/actions/runs/${run.id}/artifacts`);
+    for(const art of a.artifacts||[])linkBtn('⬇ Baixar '+art.name+' ('+fmtSize(art.size_in_bytes)+')',`${repoUrl}/actions/runs/${run.id}/artifacts/${art.id}`);
+    log('O download abre no GitHub (é preciso estar logado no site). Extraia o ZIP para pegar o .apk.');
+   }catch(e){log('Abra "Ver compilação" e baixe APK-Android em Artifacts.')}
+  } else {
+   const failed=job&&job.steps?job.steps.find(s=>s.conclusion==='failure'):null;
+   setProg(parseInt($('pct').textContent)||45,'A compilação falhou',true);
+   li.textContent='✗ Falhou'+(failed?' no passo "'+failed.name+'"':'')+'. Toque em "Ver compilação" e abra esse passo para ver o motivo.';li.className='err';
+  }
+  return;
+ }
+ li.textContent='A compilação está demorando. Acompanhe pelo link "Ver compilação".';
+}
+
+/* ---------- Início ---------- */
+updateUI();
+const saved=store.get('apkgen_token');
+if(saved){$('remember').checked=true;connect(saved,true)}
 </script>
-</body>
-</html>
+</body></html>

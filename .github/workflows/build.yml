@@ -11,30 +11,42 @@ jobs:
     steps:
       - name: Baixar projeto
         uses: actions/checkout@v4
-      - name: Conferir projeto
-        run: |
-          [ -f settings.gradle ] || [ -f settings.gradle.kts ] || [ -f build.gradle ] || [ -f build.gradle.kts ] || { echo "::error::settings.gradle ou build.gradle não encontrado na raiz do repositório"; exit 1; }
+      - name: Conferir página principal
+        run: test -f www/index.html || { echo "::error::Coloque sua página em www/index.html"; exit 1; }
       - name: Configurar Java
         uses: actions/setup-java@v4
         with:
           distribution: temurin
           java-version: '17'
-      - name: Preparar Gradle
-        uses: gradle/actions/setup-gradle@v4
+      - name: Configurar Node
+        uses: actions/setup-node@v4
         with:
-          gradle-version: '8.13'
-      - name: Compilar APK
+          node-version: '20'
+      - name: Preparar projeto Capacitor
         run: |
-          if [ -f gradlew ] && [ -f gradle/wrapper/gradle-wrapper.jar ]; then
-            chmod +x ./gradlew
-            ./gradlew assembleDebug --stacktrace
+          [ -f package.json ] || npm init -y
+          npm install @capacitor/core@^6 @capacitor/android@^6
+          npm install -D @capacitor/cli@^6
+          [ -f capacitor.config.json ] || [ -f capacitor.config.ts ] || npx cap init "C BILD" "com.apk.app" --web-dir=www
+          [ -d android ] || npx cap add android
+          npx cap sync android
+      - name: Aplicar ícone personalizado
+        run: |
+          if [ -d assistente-icone/res ]; then
+            cp -r assistente-icone/res/. android/app/src/main/res/
+            sed -i 's#@mipmap/ic_launcher_round"#@mipmap/ic_launcher_apkgen_round"#; s#@mipmap/ic_launcher"#@mipmap/ic_launcher_apkgen"#' android/app/src/main/AndroidManifest.xml
+            echo "Ícone aplicado"
           else
-            echo "Projeto sem Gradle Wrapper: usando Gradle 8.13"
-            gradle assembleDebug --stacktrace
+            echo "Sem ícone personalizado"
           fi
+      - name: Compilar APK
+        working-directory: android
+        run: |
+          chmod +x ./gradlew
+          ./gradlew assembleDebug
       - name: Publicar APK
         uses: actions/upload-artifact@v4
         with:
           name: APK-Android
-          path: '**/build/outputs/apk/debug/*.apk'
+          path: android/app/build/outputs/apk/debug/*.apk
           if-no-files-found: error
