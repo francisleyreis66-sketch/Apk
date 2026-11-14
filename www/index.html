@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Retro Game GBA</title>
+<style>
+body{background:#111;color:#fff;font-family:sans-serif;text-align:center;margin:0;padding:20px}
+h1{font-size:22px}
+.box{background:#1e1e1e;padding:20px;border-radius:16px;max-width:500px;margin:0 auto}
+input{margin:15px 0}
+#game{width:100%;height:350px;background:#000;border-radius:12px}
+button{background:#00c853;color:#fff;border:0;padding:12px 20px;border-radius:10px;font-size:16px}
+</style>
+</head>
+<body>
+<div class="box">
+<h1>🎮 Retro Game GBA</h1>
+<p>TV de tubo: <b>DESLIGADO</b> - imagem limpa</p>
+<p>1. Escolha seu jogo .gba</p>
+<input type="file" id="rom" accept=".gba,.zip">
+<div id="game"></div>
+<p>Controles: Setas = D-Pad | X = A | Z = B | Enter = Start</p>
+<button onclick="document.getElementById('rom').click()">📂 ESCOLHER JOGO</button>
+</div>
+
+<script>
+let EJS_player = "#game";
+let EJS_core = "gba";
+let EJS_pathtodata = "https://cdn.emulatorjs.org/stable/data/";
+document.getElementById('rom').addEventListener('change', function(e){
+  let file = e.target.files[0];
+  if(!file) return;
+  let url = URL.createObjectURL(file);
+  window.EJS_gameUrl = url;
+  let s = document.createElement('script');
+  s.src = "https://cdn.emulatorjs.org/stable/data/loader.js";
+  document.body.appendChild(s);
+  document.getElementById('game').innerHTML = "Carregando jogo...";
+});
+</script>
+</body>
+</html>
