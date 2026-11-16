@@ -1,0 +1,817 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="theme-color" content="#efe4cc">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Imprimir</title>
+<style id="pgstyle"></style>
+<style>
+:root{--bg:#efe4cc;--card:#f3ead6;--fg:#2b2117;--mut:#5c4d3b;--acc:#2b2117;--bd:#2b2117;--view:transparent;--tw:"Courier Prime","American Typewriter","Courier New",Courier,monospace;--serif:Georgia,"Times New Roman",serif;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+html,body{height:100%;margin:0}
+body{color:var(--fg);font:600 15px system-ui,-apple-system,"Segoe UI",sans-serif;display:flex;flex-direction:column;
+  background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .35  0 0 0 0 .25  0 0 0 0 .12  0 0 0 .16 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"),radial-gradient(ellipse at 50% 40%,#f6eedb 0%,#efe4cc 55%,#dccaa6 100%);background-color:var(--bg);background-attachment:fixed}
+.frame,header,.tile,select,input[type=number],input[type=text],textarea,details.tips,button{border:2px solid var(--bd);border-radius:10px;outline:1.3px dashed var(--bd);outline-offset:-7px;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 20 20' fill='none' stroke='%232b2117' stroke-width='1.2' stroke-linecap='round'%3E%3Cg transform='rotate(0 10 10)'%3E%3Cpath d='M2 17C2 9 9 2 17 2'/%3E%3Cpath d='M6 13c0-4 3-7 7-7'/%3E%3Cpath d='M4.5 8.5c1.6.2 2.6-.8 2.4-2.2-.2-1.2-1.6-1.4-2.1-.6'/%3E%3Ccircle cx='3' cy='3' r='1' fill='%232b2117'/%3E%3C/g%3E%3C/svg%3E") left 3px top 3px/11px no-repeat,url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 20 20' fill='none' stroke='%232b2117' stroke-width='1.2' stroke-linecap='round'%3E%3Cg transform='rotate(90 10 10)'%3E%3Cpath d='M2 17C2 9 9 2 17 2'/%3E%3Cpath d='M6 13c0-4 3-7 7-7'/%3E%3Cpath d='M4.5 8.5c1.6.2 2.6-.8 2.4-2.2-.2-1.2-1.6-1.4-2.1-.6'/%3E%3Ccircle cx='3' cy='3' r='1' fill='%232b2117'/%3E%3C/g%3E%3C/svg%3E") right 3px top 3px/11px no-repeat,url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 20 20' fill='none' stroke='%232b2117' stroke-width='1.2' stroke-linecap='round'%3E%3Cg transform='rotate(270 10 10)'%3E%3Cpath d='M2 17C2 9 9 2 17 2'/%3E%3Cpath d='M6 13c0-4 3-7 7-7'/%3E%3Cpath d='M4.5 8.5c1.6.2 2.6-.8 2.4-2.2-.2-1.2-1.6-1.4-2.1-.6'/%3E%3Ccircle cx='3' cy='3' r='1' fill='%232b2117'/%3E%3C/g%3E%3C/svg%3E") left 3px bottom 3px/11px no-repeat,url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 20 20' fill='none' stroke='%232b2117' stroke-width='1.2' stroke-linecap='round'%3E%3Cg transform='rotate(180 10 10)'%3E%3Cpath d='M2 17C2 9 9 2 17 2'/%3E%3Cpath d='M6 13c0-4 3-7 7-7'/%3E%3Cpath d='M4.5 8.5c1.6.2 2.6-.8 2.4-2.2-.2-1.2-1.6-1.4-2.1-.6'/%3E%3Ccircle cx='3' cy='3' r='1' fill='%232b2117'/%3E%3C/g%3E%3C/svg%3E") right 3px bottom 3px/11px no-repeat;background-color:var(--card);box-shadow:inset 0 0 18px rgba(120,90,50,.18),0 1px 0 rgba(0,0,0,.08)}
+header{margin:10px 12px 0;padding:14px 16px;display:flex;align-items:center;justify-content:space-between;gap:8px;background-color:#e2d3b4;box-shadow:inset 0 0 24px rgba(100,70,30,.35),0 2px 4px rgba(0,0,0,.15)}
+header h1{margin:0;flex:1;text-align:center;font:700 26px var(--tw);letter-spacing:1px;text-shadow:0 1px 0 rgba(255,255,255,.5)}
+header svg{width:46px;height:40px;flex:none}
+.ui{padding:12px;display:flex;flex-direction:column;gap:12px}
+.tiles{display:grid;grid-template-columns:repeat(5,1fr);gap:8px}
+.tile{padding:12px 2px 10px;text-align:center;font:700 12px var(--serif);letter-spacing:-.2px;overflow:hidden;cursor:pointer;color:var(--fg);display:flex;flex-direction:column;align-items:center;gap:4px}
+.tile:active,button:active{transform:translateY(1px);filter:brightness(.95)}
+.tile svg{width:44px;height:44px}
+input[type=file]{display:none}
+.set{display:grid;grid-template-columns:1fr 1fr;gap:12px 14px}
+.set label{font-size:15px;color:var(--fg);display:flex;flex-direction:column;gap:6px}
+select,input[type=number],input[type=text],textarea{padding:12px 16px;color:var(--fg);font:600 17px system-ui,-apple-system,"Segoe UI",sans-serif;width:100%;box-sizing:border-box;-webkit-appearance:none;appearance:none}
+select{padding-right:40px;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='10' viewBox='0 0 16 10' fill='none' stroke='%232b2117' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M2 2l6 6 6-6'/%3E%3C/svg%3E") right 16px center/16px 10px no-repeat,url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 20 20' fill='none' stroke='%232b2117' stroke-width='1.2' stroke-linecap='round'%3E%3Cg transform='rotate(0 10 10)'%3E%3Cpath d='M2 17C2 9 9 2 17 2'/%3E%3Cpath d='M6 13c0-4 3-7 7-7'/%3E%3Cpath d='M4.5 8.5c1.6.2 2.6-.8 2.4-2.2-.2-1.2-1.6-1.4-2.1-.6'/%3E%3Ccircle cx='3' cy='3' r='1' fill='%232b2117'/%3E%3C/g%3E%3C/svg%3E") left 3px top 3px/11px no-repeat,url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 20 20' fill='none' stroke='%232b2117' stroke-width='1.2' stroke-linecap='round'%3E%3Cg transform='rotate(90 10 10)'%3E%3Cpath d='M2 17C2 9 9 2 17 2'/%3E%3Cpath d='M6 13c0-4 3-7 7-7'/%3E%3Cpath d='M4.5 8.5c1.6.2 2.6-.8 2.4-2.2-.2-1.2-1.6-1.4-2.1-.6'/%3E%3Ccircle cx='3' cy='3' r='1' fill='%232b2117'/%3E%3C/g%3E%3C/svg%3E") right 3px top 3px/11px no-repeat,url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 20 20' fill='none' stroke='%232b2117' stroke-width='1.2' stroke-linecap='round'%3E%3Cg transform='rotate(270 10 10)'%3E%3Cpath d='M2 17C2 9 9 2 17 2'/%3E%3Cpath d='M6 13c0-4 3-7 7-7'/%3E%3Cpath d='M4.5 8.5c1.6.2 2.6-.8 2.4-2.2-.2-1.2-1.6-1.4-2.1-.6'/%3E%3Ccircle cx='3' cy='3' r='1' fill='%232b2117'/%3E%3C/g%3E%3C/svg%3E") left 3px bottom 3px/11px no-repeat,url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 20 20' fill='none' stroke='%232b2117' stroke-width='1.2' stroke-linecap='round'%3E%3Cg transform='rotate(180 10 10)'%3E%3Cpath d='M2 17C2 9 9 2 17 2'/%3E%3Cpath d='M6 13c0-4 3-7 7-7'/%3E%3Cpath d='M4.5 8.5c1.6.2 2.6-.8 2.4-2.2-.2-1.2-1.6-1.4-2.1-.6'/%3E%3Ccircle cx='3' cy='3' r='1' fill='%232b2117'/%3E%3C/g%3E%3C/svg%3E") right 3px bottom 3px/11px no-repeat;background-color:var(--card)}
+select:disabled{opacity:.5}
+input::placeholder,textarea::placeholder{color:var(--fg);opacity:.85}
+input:focus,select:focus,textarea:focus{outline-style:solid}
+textarea{min-height:110px;font:16px var(--tw)}
+#txt{display:none;flex-direction:column;gap:8px}
+button{color:var(--fg);padding:12px 14px;font:700 16px var(--serif);cursor:pointer}
+button.main{background-color:#2b2117;color:#f3ead6;outline-color:#f3ead6;background-image:none}
+button:disabled{opacity:.6}
+#st{font-size:15px;color:var(--fg);padding-bottom:12px;border-bottom:1.5px solid var(--bd)}
+details.tips{font:500 14px system-ui,sans-serif;color:var(--mut);padding:12px 16px}
+details.tips summary{cursor:pointer;color:var(--fg);font-weight:600;font-size:16px;list-style:none;display:flex;align-items:center;gap:8px}
+details.tips summary::-webkit-details-marker{display:none}
+details.tips summary::before{content:"▶";font-size:13px}
+details.tips[open] summary::before{content:"▼"}
+details.tips summary::after{content:"⇒";margin-left:auto;font-size:22px}
+details.tips ul{margin:8px 0 0;padding-left:20px}
+details.tips li{margin:4px 0}
+#view{flex:1;overflow:auto;background:transparent;padding:12px;min-height:200px}
+#out{transform-origin:top left;width:max-content;margin:0 auto}
+.sheet{background:#fff;box-shadow:0 2px 8px rgba(60,40,10,.4);margin:0 auto 14px;box-sizing:border-box;overflow:hidden;position:relative}
+.area,.strip{position:relative;width:100%;height:100%;overflow:hidden}
+.strip{margin-bottom:3mm}.strip:last-child{margin-bottom:0}
+.sheet img{display:block;width:100%;height:100%}
+.sheet img.r{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%) rotate(90deg)}
+.flow{background:#fff;color:#000;box-shadow:0 1px 6px rgba(0,0,0,.35);box-sizing:border-box;font:12pt Georgia,"Times New Roman",serif;line-height:1.35;margin:0 auto 14px;overflow-wrap:anywhere}
+.flow img{max-width:100%}.flow table{border-collapse:collapse;max-width:100%}.flow td,.flow th{border:1px solid #999;padding:2px 5px}
+.flow img,.flow tr{break-inside:avoid;page-break-inside:avoid}
+.roll .flow{font-size:9pt;line-height:1.25}
+.sheet,.flow,.sheet img{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+.gray .flow{filter:grayscale(1)}
+.hc .flow{filter:grayscale(1) contrast(1.5)}
+.pg{break-after:page;page-break-after:always}
+.sheet.pg{break-inside:avoid;page-break-inside:avoid}
+.pg:last-child{break-after:auto;page-break-after:auto}
+.extra{display:none}
+#empty{color:var(--fg);text-align:center;padding:60px 10px;font:22px var(--tw)}
+#bar{padding:10px 12px calc(10px + env(safe-area-inset-bottom,0px));border-top:1.5px solid var(--bd);display:flex;gap:10px}
+#bar button{flex:1;font-size:16px;padding:13px 8px}
+#drv{border:2px solid var(--bd);border-radius:10px;padding:12px 16px;background:var(--card);font:500 15px system-ui,sans-serif;line-height:1.45}
+#drv h3{margin:0 0 6px;font:700 18px var(--serif)}#drv ol{margin:6px 0;padding-left:22px}#drv li{margin:3px 0}
+#drv a.bt{display:block;text-align:center;margin:8px 0;padding:12px;border-radius:10px;background:#2b2117;color:#f3ead6;font:700 16px var(--serif);text-decoration:none}
+#drv select{margin:6px 0}
+#uc{width:100%;font:600 15px system-ui,-apple-system,"Segoe UI",sans-serif;padding:12px 10px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+@media print{
+  html,body{height:auto;display:block;background:#fff!important}
+  header,.ui,#bar,#empty{display:none!important}
+  #view{overflow:visible;background:none;padding:0}
+  #out{zoom:1!important;width:auto;margin:0}
+  .sheet,.flow{box-shadow:none!important;margin:0!important}
+  .flow{width:auto!important;padding:0!important;min-height:0!important}
+  .extra{display:block!important}
+}
+</style>
+</head>
+<body>
+<header><svg viewBox='0 0 48 42' fill='none' stroke='currentColor' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round' aria-hidden='true'><path d='M13 14V4h17l5 5v5'/><path d='M30 4v5h5'/><rect x='4' y='14' width='40' height='16' rx='3' fill='#d9c7a2'/><path d='M4 22h40' opacity='.4'/><circle cx='38' cy='18' r='1.4' fill='currentColor'/><path d='M12 26h24v13H12z' fill='#f3ead6'/><path d='M16 30h16M16 33h16M16 36h11'/><path d='M8 30h3M37 30h3'/></svg><h1>Imprimir</h1><svg viewBox='0 0 48 42' fill='none' stroke='currentColor' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round' aria-hidden='true'><path d='M13 14V4h17l5 5v5'/><path d='M30 4v5h5'/><rect x='4' y='14' width='40' height='16' rx='3' fill='#d9c7a2'/><path d='M4 22h40' opacity='.4'/><circle cx='38' cy='18' r='1.4' fill='currentColor'/><path d='M12 26h24v13H12z' fill='#f3ead6'/><path d='M16 30h16M16 33h16M16 36h11'/><path d='M8 30h3M37 30h3'/></svg></header>
+<div class="ui">
+  <div class="tiles">
+    <label class="tile"><svg viewBox='0 0 44 44' fill='none' stroke='currentColor' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'><path d='M10 4h17l8 8v28H10z' fill='#f6efde'/><path d='M27 4v8h8' fill='#ddcba7'/><path d='M14 16h10M14 20h17M14 24h17M14 28h17M14 32h17M14 36h12' stroke-width='1.1'/><path d='M8 6v36h25' opacity='.5'/></svg>Documento<input id="fd" type="file" accept=".pdf,.docx,.txt,.md,.csv,.log,.json,.xml,.html,.htm,application/pdf,text/*,image/*"></label>
+    <label class="tile"><svg viewBox='0 0 44 44' fill='none' stroke='currentColor' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'><rect x='4' y='6' width='36' height='32' rx='1' fill='#cdb68c'/><rect x='9' y='11' width='26' height='22' fill='#f1e6cf'/><path d='M9 29l7-8 5 5 4-4 10 9' /><path d='M9 33h26' /><circle cx='28' cy='16' r='2.5'/><path d='M12 15c2-1 3 0 4-1M18 14c1.5-1 3 0 4 0' stroke-width='1'/><path d='M6 8l3 3M38 8l-3 3M6 36l3-3M38 36l-3-3' stroke-width='1'/></svg>Fotos<input id="fi" type="file" accept="image/*" multiple></label>
+    <label class="tile"><svg viewBox='0 0 44 44' fill='none' stroke='currentColor' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'><path d='M5 15h8l3-5h12l3 5h8v22H5z' fill='#3a2f24' stroke='currentColor'/><rect x='8' y='9' width='5' height='4' fill='#3a2f24'/><circle cx='22' cy='25' r='9' fill='#b9a68a'/><circle cx='22' cy='25' r='6' fill='#2b2117'/><circle cx='20' cy='23' r='1.8' fill='#f3ead6' stroke='none'/><rect x='31' y='18' width='5' height='3' fill='#f3ead6'/></svg>Câmera<input id="fc" type="file" accept="image/*" capture="environment"></label>
+    <div class="tile" id="tt"><svg viewBox='0 0 44 44' fill='none' stroke='currentColor' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'><path d='M30 5l9 9-21 21-9-9z' fill='#e7d6b0'/><path d='M9 26l-4 13 13-4' fill='#f3ead6'/><path d='M7 33l4 4' stroke-width='2.4'/><path d='M27 8l9 9' /><path d='M24 11l9 9M12 23l9 9' stroke-width='1'/></svg>Texto</div>
+    <div class="tile" id="th"><svg viewBox='0 0 44 44' fill='none' stroke='currentColor' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'><circle cx='22' cy='19' r='13' fill='#efe2c6'/><ellipse cx='22' cy='19' rx='6' ry='13'/><path d='M9 19h26M11 12h22M11 26h22M22 6v26'/><path d='M8 9a17 17 0 0 0 28 20'/><path d='M22 36v4M15 41h14'/></svg>HTML</div>
+  </div>
+  <div id="txt">
+    <textarea id="ta" placeholder="Digite ou cole aqui"></textarea>
+    <button id="use">Usar para imprimir</button>
+  </div>
+  <div class="set">
+    <label>Papel<select id="pp">
+      <optgroup label="Escritório">
+        <option value="a4">A4 (210×297 mm)</option>
+        <option value="univ">Universal (cabe em A4 e Carta)</option>
+        <option value="letter">Carta / Letter</option>
+        <option value="oficio">Ofício (216×330 mm)</option>
+        <option value="legal">Legal (216×356 mm)</option>
+        <option value="a3">A3</option>
+        <option value="a5">A5</option>
+        <option value="a6">A6</option>
+        <option value="b5">B5</option>
+        <option value="exec">Executivo</option>
+      </optgroup>
+      <optgroup label="Fotos">
+        <option value="foto">Foto 10×15</option>
+        <option value="foto13">Foto 13×18</option>
+        <option value="foto15">Foto 15×21</option>
+      </optgroup>
+      <optgroup label="Térmicas">
+        <option value="etq">Etiqueta 10×15</option>
+        <option value="r80">Bobina 80 mm (cupom)</option>
+        <option value="r58">Bobina 58 mm (cupom)</option>
+      </optgroup>
+    </select></label>
+    <label>Orientação<select id="or"><option value="p">Retrato</option><option value="l">Paisagem</option></select></label>
+    <label>Margens<select id="mg"><option value="0">Nenhuma (sem borda)</option><option value="3">Mínima</option><option value="6">Estreita</option><option value="10" selected>Normal</option><option value="20">Larga</option></select></label>
+    <label>Ajuste (imagens)<select id="fit"><option value="contain">Ajustar</option><option value="cover">Preencher</option><option value="none">Original</option></select></label>
+    <label>Girar para caber<select id="rot"><option value="a">Automático</option><option value="n">Não girar</option></select></label>
+    <label>Cor<select id="cl"><option value="c">Colorido</option><option value="g">Preto e branco</option><option value="h">Alto contraste (térmica/pouca tinta)</option></select></label>
+    <label>Qualidade<select id="ql"><option value="r">Rascunho (rápido)</option><option value="n" selected>Normal</option><option value="a">Alta</option></select></label>
+    <label>Cópias<input id="cp" type="number" min="1" max="99" value="1"></label>
+    <label style="grid-column:span 2">Páginas (PDF e fotos), ex.: 1-3,5<input id="rg" type="text" placeholder="Todas"></label>
+    <label>Cabo USB (linguagem)<select id="ul"><option value="auto">Automático</option><option value="esc">Cupom ESC/POS</option><option value="tspl">Etiqueta TSPL</option><option value="comum">Impressora comum direto (IPP-USB / PCL)</option><option value="zpl">Zebra ZPL</option><option value="sys">Comum pela janela do sistema</option></select></label>
+    <label>Impressora USB<button id="uc" type="button">Conectar USB</button></label>
+  </div>
+  <button id="dr" type="button">🔌 Reconhecer impressora e baixar driver</button>
+  <div id="drv" style="display:none"></div>
+  <details class="tips" id="appbox" style="display:none" open><summary>Impressora USB</summary>
+    <div id="apppr" style="margin:10px 0 8px;color:var(--fg);font-weight:600"></div>
+    <div style="display:flex;flex-direction:column;gap:8px">
+      <button id="aauth" type="button">Procurar / autorizar impressora</button>
+      <button id="afw" type="button">Carregar firmware (HP P1005…)</button>
+      <button id="aset" type="button">Usar no menu Imprimir de outros apps</button>
+      <label style="display:flex;flex-direction:column;gap:6px;color:var(--fg)">Opções extras do driver<input id="aext" type="text" placeholder="ex.: -z1"></label>
+    </div>
+  </details>
+  <details class="tips"><summary>Dicas para sua impressora</summary><ul>
+    <li>Na janela de impressão, escolha <b>o mesmo papel</b> daqui e escala <b>100% / Tamanho real</b>. Desative "Cabeçalhos e rodapés".</li>
+    <li>Não sabe se a impressora usa A4 ou Carta? Use <b>Universal</b>.</li>
+    <li>Se as bordas saírem cortadas, use margem <b>Normal</b>. "Nenhuma" só funciona em impressoras que imprimem sem borda.</li>
+    <li>A impressora não aparece no celular? Toque em <b>PDF / Enviar</b> e mande para o app do fabricante (HP Smart, Epson, Canon PRINT, Brother, Mopria) ou salve e imprima de outro aparelho.</li>
+    <li>Impressora térmica (cupom ou etiqueta): escolha Bobina ou Etiqueta e use <b>Alto contraste</b>.</li>
+    <li>Se a impressão estiver pesada ou travar, use qualidade <b>Rascunho</b>.</li>
+    <li><b>Cabo USB direto</b> (térmicas de cupom/etiqueta): use Chrome ou Edge no Android ou no computador. No celular, ligue a impressora com um adaptador <b>OTG</b>. Toque em <b>Conectar USB</b>, escolha a impressora e depois em <b>USB</b>.</li>
+    <li>Impressora comum (jato de tinta/laser) no cabo: deixe "Cabo USB" em <b>Automático</b> e toque em <b>USB</b>. O app conversa direto com a impressora (IPP-USB, padrão da maioria dos modelos de 2015 para cá) ou, nas lasers antigas, em PCL. Se não sair nada, use o botão 🔌 para instalar o plugin da marca e depois toque em <b>Imprimir</b>.</li>
+    <li>Antes de tocar em <b>USB</b>, feche os apps HP Smart, Epson, Canon e Mopria, porque eles podem estar segurando o cabo.</li>
+    <li>No Windows, se der "impressora ocupada", o driver do Windows está usando a porta. Use <b>Imprimir</b> ou troque o driver para WinUSB (programa Zadig).</li>
+    <li>iPhone/iPad não permitem USB direto pelo navegador: use <b>Imprimir</b> (AirPrint) ou <b>PDF / Enviar</b>.</li>
+  </ul></details>
+  <div id="st">Escolha um documento, fotos ou texto para começar.</div>
+</div>
+<div id="view"><div id="empty">Nenhum conteúdo carregado.</div><div id="out"></div></div>
+<div id="bar"><button class="sec" id="pdf">PDF / Enviar</button><button class="sec" id="usb">USB</button><button class="main" id="pr">Imprimir</button></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.4.2/mammoth.browser.min.js"></script>
+<script>
+const $=id=>document.getElementById(id);
+// Tamanhos em mm. Altura 0 = papel contínuo (bobina), altura calculada pelo conteúdo.
+const PAPER={a4:[210,297],univ:[210,279.4],letter:[215.9,279.4],oficio:[216,330],legal:[215.9,355.6],a3:[297,420],a5:[148,210],a6:[105,148],b5:[176,250],exec:[184.2,266.7],foto:[102,152],foto13:[127,178],foto15:[152,210],etq:[100,150],r80:[80,0],r58:[58,0]};
+const THERMAL=['etq','r80','r58'];
+const CAP={r:1800,n:2600,a:3600};   // lado maior das fotos (px)
+const DPI={r:110,n:170,a:250};      // resolução de leitura do PDF
+const PDPI={r:150,n:200,a:300};     // resolução do PDF gerado
+const MM=96/25.4;
+const JSPDF='https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js';
+const H2C='https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js';
+const INAPP=/FBAN|FBAV|Instagram|Line\/|WhatsApp|; wv\)|Snapchat|TikTok|musical_ly/i.test(navigator.userAgent);
+const TIP=' · Na impressão use o mesmo papel e escala 100%.';
+let mode='',items=[],flow='',src=null,pdfReady=null,rt=0;
+
+const st=t=>$('st').textContent=t;
+const f2=x=>Math.round(x*100)/100;
+const q=()=>$('ql').value;
+const copies=()=>Math.max(1,Math.min(99,Math.floor(+$('cp').value)||1));
+const esc=s=>s.replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));
+const sched=()=>{clearTimeout(rt);rt=setTimeout(render,60)};
+if(window.pdfjsLib)try{pdfjsLib.GlobalWorkerOptions.workerSrc='https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js'}catch(e){}
+
+function clean(h){
+  const d=new DOMParser().parseFromString(h,'text/html');
+  d.querySelectorAll('script,iframe,object,embed,link,meta,base').forEach(e=>e.remove());
+  d.querySelectorAll('*').forEach(e=>[...e.attributes].forEach(a=>{if(/^on/i.test(a.name)||/^\s*javascript:/i.test(a.value))e.removeAttribute(a.name)}));
+  return d.body.innerHTML;
+}
+function range(n){
+  const t=$('rg').value.trim();if(!t)return[...Array(n).keys()];
+  const s=new Set();
+  t.split(',').forEach(p=>{const m=/^\s*(\d+)\s*(?:-\s*(\d+))?\s*$/.exec(p);if(!m)return;const a=+m[1],b=+(m[2]||m[1]);for(let i=Math.min(a,b);i<=Math.max(a,b);i++)if(i>=1&&i<=n)s.add(i-1)});
+  return[...s].sort((a,b)=>a-b);
+}
+function geom(){
+  const P=PAPER[$('pp').value]||PAPER.a4,roll=!P[1],land=!roll&&$('or').value==='l';
+  let mg=+$('mg').value;if(roll)mg=Math.min(mg,3);
+  return{pw:land?P[1]:P[0],ph:land?P[0]:P[1],mg,roll};
+}
+const needRot=(it,W,H)=>$('rot').value==='a'&&Math.abs(it.w-it.h)>2&&(it.w>it.h)!==(W>H);
+
+// ---------- imagens ----------
+const loadImg=u=>new Promise((ok,no)=>{const i=new Image();i.onload=()=>ok(i);i.onerror=()=>no(new Error('imagem inválida'));i.src=u});
+const toBlob=c=>new Promise((ok,no)=>c.toBlob(b=>b?ok(b):no(new Error('memória insuficiente; tente qualidade Rascunho')),'image/jpeg',.9));
+async function canvasItem(cv){const u=URL.createObjectURL(await toBlob(cv));const it={src:u,w:cv.width,h:cv.height};cv.width=cv.height=0;return it}
+function freeList(list){list.forEach(it=>['src','g','h'].forEach(k=>{if(it[k])URL.revokeObjectURL(it[k])}))}
+function blankCanvas(w,h){const c=document.createElement('canvas');c.width=Math.max(1,Math.round(w));c.height=Math.max(1,Math.round(h));const x=c.getContext('2d');x.fillStyle='#fff';x.fillRect(0,0,c.width,c.height);return[c,x]}
+
+// Versão em cinza / alto contraste gravada na própria imagem (não depende do navegador nem do driver)
+function makeVar(it,cl){
+  const k='p'+cl;if(it[k])return it[k];
+  return it[k]=(async()=>{
+    const im=await loadImg(it.src);const[c,x]=blankCanvas(im.naturalWidth,im.naturalHeight);x.drawImage(im,0,0);
+    const d=x.getImageData(0,0,c.width,c.height),a=d.data;
+    for(let i=0;i<a.length;i+=4){let v=.299*a[i]+.587*a[i+1]+.114*a[i+2];if(cl==='h'){v=(v-50)*1.6;v=v<0?0:v>255?255:v}a[i]=a[i+1]=a[i+2]=v}
+    x.putImageData(d,0,0);
+    const b=await toBlob(c);c.width=c.height=0;it[cl]=URL.createObjectURL(b);
+  })().catch(()=>{it[k]=null});
+}
+function srcOf(it,cl){
+  if(cl==='c')return[it.src,''];
+  if(it[cl])return[it[cl],''];
+  const p=makeVar(it,cl);if(p)p.then(sched);
+  return[it.src,cl==='g'?'filter:grayscale(1);':'filter:grayscale(1) contrast(1.6);'];
+}
+const ensureVariants=()=>{const cl=$('cl').value;if(mode==='flow'||cl==='c')return Promise.resolve();return Promise.all(range(items.length).map(i=>makeVar(items[i],cl)))};
+function imgTag(it,cl,fit,r,W,H){
+  const[s,flt]=srcOf(it,cl);
+  return'<img'+(r?' class="r"':'')+' src="'+s+'" alt="" style="object-fit:'+fit+';'+(r?'width:'+f2(H)+'mm;height:'+f2(W)+'mm;':'')+flt+'">';
+}
+const waitImgs=el=>Promise.all([...el.querySelectorAll('img')].map(i=>i.complete&&i.naturalWidth?0:(i.decode?i.decode():new Promise(r=>{i.onload=i.onerror=r})).catch(()=>0)));
+
+// ---------- pré-visualização / impressão ----------
+function setPage(w,h,m){$('pgstyle').textContent='@page{size:'+f2(w)+'mm '+f2(h)+'mm;margin:'+f2(m)+'mm}'}
+function fitZoom(){$('out').style.zoom=Math.min(1,($('view').clientWidth-24)/(geom().pw*MM))}
+function measureRoll(){
+  const o=$('out'),fl=o.querySelector('.flow');if(!fl)return;
+  const z=o.style.zoom;o.style.zoom=1;const h=fl.offsetHeight/MM;o.style.zoom=z;
+  const g=geom();setPage(g.pw,h+2,g.mg);
+}
+function render(){
+  $('empty').style.display=mode?'none':'block';
+  const o=$('out');
+  if(!mode){o.innerHTML='';$('pgstyle').textContent='';return}
+  const{pw,ph,mg,roll}=geom(),n=copies(),fit=$('fit').value,cl=$('cl').value;
+  $('or').disabled=roll;
+  o.className=(roll?'roll ':'')+(cl==='g'?'gray':cl==='h'?'hc':'');
+  o.style.zoom=1;
+  let one=[],pageH=ph,msg;
+  if(mode==='flow'){
+    one=['<div class="flow pg" style="width:'+pw+'mm;'+(roll?'':'min-height:'+ph+'mm;')+'padding:'+mg+'mm">'+flow+'</div>'];
+    msg='Documento pronto · '+n+' cópia(s)'+(roll?' · bobina contínua':'');
+  }else{
+    const idx=range(items.length),W=pw-2*mg;
+    if(roll){
+      let tot=2*mg+3*Math.max(0,idx.length-1);
+      const parts=idx.map(i=>{const it=items[i],r=$('rot').value==='a'&&it.w>it.h*1.05,hh=W*(r?it.w/it.h:it.h/it.w);tot+=hh;return'<div class="strip" style="height:'+f2(hh)+'mm">'+imgTag(it,cl,fit,r,W,hh)+'</div>'});
+      if(parts.length)one=['<div class="sheet pg" style="width:'+pw+'mm;height:'+f2(tot)+'mm;padding:'+mg+'mm">'+parts.join('')+'</div>'];
+      pageH=tot+1;
+    }else{
+      const H=ph-2*mg;
+      one=idx.map(i=>'<div class="sheet pg" style="width:'+pw+'mm;height:'+f2(ph-.5)+'mm;padding:'+mg+'mm"><div class="area">'+imgTag(items[i],cl,fit,needRot(items[i],W,H),W,H)+'</div></div>');
+    }
+    msg=idx.length?idx.length+' página(s) de '+items.length+' · '+n+' cópia(s)':'Nenhuma página no intervalo escolhido.';
+  }
+  let h=one.join('');const extra=one.map(s=>s.replace('class="','class="extra ')).join('');
+  for(let k=1;k<n;k++)h+=extra;
+  o.innerHTML=h;
+  if(mode==='flow'&&roll){measureRoll();o.querySelectorAll('img').forEach(i=>{if(!i.complete)i.addEventListener('load',measureRoll,{once:true})})}
+  else setPage(pw,pageH,mode==='flow'?mg:0);
+  fitZoom();
+  st(msg+TIP);
+}
+function invalidate(){pdfReady=null;$('pdf').textContent='PDF / Enviar'}
+function setItems(list,m){const old=items;items=list;freeList(old);mode=m;$('fit').value='contain';invalidate();render()}
+function setFlow(h){const old=items;items=[];freeList(old);src=null;flow=h;mode='flow';invalidate();render()}
+
+// ---------- leitura de arquivos ----------
+async function loadPdf(buf){
+  if(!window.pdfjsLib)throw new Error('o leitor de PDF não carregou (verifique a internet)');
+  st('Lendo PDF…');
+  const pdf=await pdfjsLib.getDocument({data:new Uint8Array(buf.slice(0))}).promise,sc=DPI[q()]/72,out=[];
+  try{
+    for(let i=1;i<=pdf.numPages;i++){
+      st('Preparando página '+i+' de '+pdf.numPages+'…');
+      const pg=await pdf.getPage(i);let vp=pg.getViewport({scale:sc});
+      const lim=Math.sqrt(16e6/(vp.width*vp.height));if(lim<1)vp=pg.getViewport({scale:sc*lim}); // limite de memória do iPhone/Android
+      const[cv,x]=blankCanvas(Math.floor(vp.width),Math.floor(vp.height));
+      await pg.render({canvasContext:x,viewport:vp}).promise;
+      out.push(await canvasItem(cv));pg.cleanup();
+    }
+  }catch(e){freeList(out);throw e}
+  pdf.destroy();setItems(out,'pdf');
+}
+async function prepImage(file){
+  const url=URL.createObjectURL(file);let im;
+  try{im=await loadImg(url)}catch(e){URL.revokeObjectURL(url);throw new Error('"'+file.name+'" não pôde ser aberta'+(/heic|heif/i.test(file.name+file.type)?' (HEIC: converta para JPG)':''))}
+  const w=im.naturalWidth||1200,h=im.naturalHeight||1200,cap=CAP[q()],svg=/svg/i.test(file.type)||/\.svg$/i.test(file.name);
+  if(!svg&&Math.max(w,h)<=cap)return{src:url,w,h};
+  const s=cap/Math.max(w,h),[cv,x]=blankCanvas(w*s,h*s);x.drawImage(im,0,0,cv.width,cv.height);
+  URL.revokeObjectURL(url);return canvasItem(cv);
+}
+async function addImgs(files,append){
+  if(!files.length)return;
+  const out=[],bad=[];
+  for(let i=0;i<files.length;i++){st('Preparando foto '+(i+1)+' de '+files.length+'…');try{out.push(await prepImage(files[i]))}catch(e){bad.push(e.message)}}
+  if(!out.length){st(bad[0]||'Nenhuma foto pôde ser aberta.');return}
+  if(append&&mode==='img'){items=items.concat(out);src.files=src.files.concat(files);mode='img';invalidate();render()}
+  else{src={k:'img',files};setItems(out,'img')}
+  if(bad.length)st(bad.join(' · '));
+}
+async function reload(){
+  if(!src)return;
+  try{if(src.k==='pdf')await loadPdf(src.buf);else{const fs=src.files;await addImgs(fs,false)}}catch(e){st('Erro: '+e.message)}
+}
+$('fd').onchange=async e=>{const f=e.target.files[0];e.target.value='';if(f)await openFile(f)};
+async function openFile(f){
+  try{
+    const n=f.name.toLowerCase();
+    if(n.endsWith('.pdf')||f.type==='application/pdf'){const buf=await f.arrayBuffer();await loadPdf(buf);src={k:'pdf',buf}}
+    else if(/^image\//.test(f.type))await addImgs([f],false);
+    else if(n.endsWith('.docx')){if(!window.mammoth)throw new Error('o leitor de Word não carregou (verifique a internet)');st('Lendo documento…');setFlow((await mammoth.convertToHtml({arrayBuffer:await f.arrayBuffer()})).value)}
+    else if(n.endsWith('.doc'))throw new Error('arquivos .doc antigos não são suportados; salve como .docx ou PDF');
+    else if(/\.html?$/.test(n))setFlow(clean(await f.text()));
+    else setFlow('<pre style="white-space:pre-wrap;font-family:Consolas,monospace;font-size:.92em;margin:0">'+esc(await f.text())+'</pre>');
+  }catch(err){st('Não consegui abrir este arquivo: '+err.message)}
+}
+$('fi').onchange=async e=>{const fs=[...e.target.files];e.target.value='';await addImgs(fs,false)};
+$('fc').onchange=async e=>{const fs=[...e.target.files];e.target.value='';await addImgs(fs,true)}; // câmera: cada foto se soma às anteriores
+let asHtml=false;
+function openTxt(h){asHtml=h;$('txt').style.display='flex';$('ta').placeholder=h?'Cole aqui o código HTML':'Digite ou cole aqui o texto';$('ta').focus()}
+$('tt').onclick=()=>openTxt(false);$('th').onclick=()=>openTxt(true);
+$('use').onclick=()=>{
+  const t=$('ta').value;if(!t.trim())return;
+  $('txt').style.display='none';
+  setFlow(asHtml?clean(t):'<div style="white-space:pre-wrap">'+esc(t)+'</div>');
+};
+
+// ---------- ajustes ----------
+['pp','or','mg','fit','rot','cl','cp','rg'].forEach(id=>$(id).addEventListener('input',()=>{invalidate();render()}));
+$('pp').addEventListener('change',()=>{if(THERMAL.includes($('pp').value)&&$('cl').value==='c'){$('cl').value='h';invalidate();render()}});
+$('ql').addEventListener('change',()=>{invalidate();reload()});
+addEventListener('resize',fitZoom);
+
+// ---------- imprimir ----------
+$('pr').onclick=async()=>{
+  if(!mode){st('Carregue um conteúdo antes de imprimir.');return}
+  if(typeof window.print!=='function'){st('Este navegador não imprime. Use "PDF / Enviar".');return}
+  st('Preparando impressão…');
+  await ensureVariants();render();await waitImgs($('out'));
+  if(mode==='flow'&&geom().roll)measureRoll();
+  try{window.print()}catch(e){st('Não foi possível abrir a impressão aqui. Use "PDF / Enviar".');return}
+  st(INAPP?'Se nada abriu, este app bloqueia impressão: use "PDF / Enviar" ou abra no Chrome/Safari.':'Pronto'+TIP);
+};
+
+// ---------- PDF / Enviar (para apps de fabricante, Mopria, outro computador) ----------
+const LS={};
+const loadScript=u=>LS[u]||(LS[u]=new Promise((ok,no)=>{const s=document.createElement('script');s.src=u;s.onload=ok;s.onerror=()=>{s.remove();delete LS[u];no(new Error('sem internet para gerar o PDF'))};document.head.appendChild(s)}));
+function drawFit(x,im,bx,by,W,H,fit,r,k){
+  const iw=im.naturalWidth||1,ih=im.naturalHeight||1,bw=r?H:W,bh=r?W:H;
+  const s=fit==='cover'?Math.max(bw/iw,bh/ih):fit==='none'?k*25.4/96:Math.min(bw/iw,bh/ih);
+  x.save();x.beginPath();x.rect(bx,by,W,H);x.clip();x.translate(bx+W/2,by+H/2);if(r)x.rotate(Math.PI/2);
+  x.drawImage(im,-iw*s/2,-ih*s/2,iw*s,ih*s);x.restore();
+}
+async function pageJpeg(pw,ph,blocks){
+  let k=PDPI[q()]/25.4;const lim=Math.sqrt(16e6/(pw*ph*k*k));if(lim<1)k*=lim;
+  const[cv,x]=blankCanvas(pw*k,ph*k);
+  for(const b of blocks)drawFit(x,await loadImg(b.src),b.x*k,b.y*k,b.w*k,b.h*k,b.fit,b.r,k);
+  const d=cv.toDataURL('image/jpeg',.9);cv.width=cv.height=0;return d;
+}
+async function buildPdf(){
+  await loadScript(JSPDF);
+  const{jsPDF}=window.jspdf,{pw,ph,mg,roll}=geom(),n=copies(),fit=$('fit').value,cl=$('cl').value;
+  const ori=(w,h)=>w>h?'landscape':'portrait';
+  let doc=null;const add=(w,h)=>{if(!doc)doc=new jsPDF({unit:'mm',format:[w,h],orientation:ori(w,h),compress:true});else doc.addPage([w,h],ori(w,h))};
+  if(mode==='flow'){
+    await loadScript(H2C);
+    const hold=document.createElement('div');hold.style.cssText='position:fixed;left:-10000px;top:0';
+    const wrap=document.createElement('div');wrap.className='flow';
+    wrap.style.cssText='width:'+(pw-2*mg)+'mm;padding:0;margin:0;box-shadow:none;min-height:0'+(roll?';font-size:9pt;line-height:1.25':'');
+    wrap.innerHTML=flow;hold.appendChild(wrap);document.body.appendChild(hold);
+    try{
+      await waitImgs(wrap);
+      add(pw,roll?wrap.offsetHeight/MM+2*mg+3:ph);
+      await new Promise((ok,no)=>{const t=setTimeout(()=>no(new Error('tempo esgotado')),90000);doc.html(wrap,{margin:[mg,mg,mg,mg],autoPaging:'text',width:pw-2*mg,windowWidth:wrap.offsetWidth,html2canvas:{scale:Math.min(3,PDPI[q()]/96),backgroundColor:'#fff',useCORS:true},callback:()=>{clearTimeout(t);ok()}})});
+    }finally{hold.remove()}
+  }else{
+    await ensureVariants();
+    const idx=range(items.length);if(!idx.length)throw new Error('nenhuma página no intervalo escolhido');
+    const sv=it=>cl!=='c'&&it[cl]?it[cl]:it.src,W=pw-2*mg,pages=[];
+    if(roll){
+      let y=mg;const bl=idx.map(i=>{const it=items[i],r=$('rot').value==='a'&&it.w>it.h*1.05,hh=W*(r?it.w/it.h:it.h/it.w),b={src:sv(it),x:mg,y,w:W,h:hh,fit,r};y+=hh+3;return b});
+      const H=y-3+mg;pages.push({h:H,d:await pageJpeg(pw,H,bl)});
+    }else{
+      const H=ph-2*mg;
+      for(let j=0;j<idx.length;j++){st('Gerando PDF: página '+(j+1)+' de '+idx.length+'…');const it=items[idx[j]];pages.push({h:ph,d:await pageJpeg(pw,ph,[{src:sv(it),x:mg,y:mg,w:W,h:H,fit,r:needRot(it,W,H)}])})}
+    }
+    for(let c=0;c<n;c++)pages.forEach((p,j)=>{add(pw,p.h);doc.addImage(p.d,'JPEG',0,0,pw,p.h,'pg'+j,'FAST')});
+  }
+  return doc.output('blob');
+}
+function download(file){if(window.AndroidUSB){blobB64(file).then(b=>AndroidUSB.savePdf(b,file.name));return}const a=document.createElement('a');a.href=URL.createObjectURL(file);a.download=file.name;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(a.href),60000)}
+async function sendPdf(file){try{await navigator.share({files:[file],title:'Imprimir'})}catch(e){if(e.name!=='AbortError')download(file)}}
+$('pdf').onclick=async()=>{
+  if(!mode){st('Carregue um conteúdo primeiro.');return}
+  if(pdfReady){sendPdf(pdfReady);return}
+  const b=$('pdf');b.disabled=true;st('Gerando PDF…');
+  try{
+    const file=new File([await buildPdf()],'imprimir.pdf',{type:'application/pdf'});
+    const extra=mode==='flow'&&copies()>1?' (cópias: defina no app da impressora)':'';
+    if(navigator.canShare&&navigator.canShare({files:[file]})){pdfReady=file;b.textContent='📤 Enviar PDF';st('PDF pronto'+extra+'. Toque em "Enviar PDF" e escolha o app da impressora ou salve.')}
+    else{download(file);st('PDF salvo'+extra+'. Abra no app da impressora ou em outro aparelho para imprimir.')}
+  }catch(e){st('Não consegui gerar o PDF: '+e.message)}
+  finally{b.disabled=false}
+};
+
+// ---------- USB direto (WebUSB: Chrome/Edge no Android e no computador) ----------
+const DOTS=8; // 203 dpi = 8 pontos por mm (padrão das térmicas)
+let usbDev=null,usbEp=0,usbIn=0,usbIf=0,usbIpp=false,usbWant=null;
+function usbLang(){const v=$('ul').value,p=$('pp').value;if(v!=='auto')return v;return p==='etq'?'tspl':(p==='r58'||p==='r80')?'esc':'comum'}
+function usbDims(lang){
+  const p=$('pp').value,g=geom();
+  if(p==='r58')return{w:384,h:0};
+  if(p==='r80'||lang==='esc')return{w:576,h:0};
+  return{w:Math.round(g.pw*DOTS/8)*8,h:Math.round(g.ph*DOTS)};
+}
+function usbName(){return usbDev?(usbDev.productName||usbDev.manufacturerName||'Impressora USB'):''}
+function usbLabel(){$('uc').textContent=usbDev?'✓ '+usbName():'Conectar USB'}
+async function usbOpen(pick,ipp){
+  if(!navigator.usb){
+    const ios=/iPhone|iPad|iPod/.test(navigator.userAgent)||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1);
+    throw new Error(ios?'iPhone/iPad não permitem USB pelo navegador. Use "Imprimir" (AirPrint) ou "PDF / Enviar".':!isSecureContext?'o USB só funciona em página https.':'este navegador não tem USB. Use Chrome ou Edge (Android ou computador).');
+  }
+  ipp=!!ipp;
+  if(!pick&&usbDev&&usbDev.opened&&usbWant===ipp)return;
+  let d=pick?null:usbDev;
+  if(usbDev){try{await usbDev.close()}catch(e){}usbDev=null}
+  if(!d&&!pick){const ds=await navigator.usb.getDevices();d=ds[0]||null}
+  if(!d)d=await navigator.usb.requestDevice({filters:[]});
+  if(!d.opened)await d.open();
+  if(!d.configuration)await d.selectConfiguration(1);
+  // escolhe a interface: IPP-USB (classe 7, protocolo 4) para impressoras comuns modernas, senão classe 7 comum
+  let best=null;
+  for(const itf of d.configuration.interfaces)for(const alt of itf.alternates){
+    const out=alt.endpoints.find(e=>e.direction==='out'&&e.type==='bulk'),inp=alt.endpoints.find(e=>e.direction==='in'&&e.type==='bulk');
+    if(!out)continue;
+    const isIpp=alt.interfaceClass===7&&alt.interfaceProtocol===4&&!!inp;
+    const sc=(alt.interfaceClass===7?2:0)+(isIpp?(ipp?4:-3):0);
+    if(!best||sc>best.sc)best={sc,i:itf.interfaceNumber,a:alt.alternateSetting,ep:out.endpointNumber,inp:inp?inp.endpointNumber:0,ipp:isIpp};
+  }
+  if(!best){await d.close();throw new Error('este aparelho USB não parece ser uma impressora')}
+  await d.claimInterface(best.i);
+  if(best.a)await d.selectAlternateInterface(best.i,best.a);
+  usbDev=d;usbIf=best.i;usbEp=best.ep;usbIn=best.inp;usbIpp=best.ipp;usbWant=ipp;usbLabel();
+}
+function usbErr(e){
+  if(e.name==='NotFoundError')return'Nenhuma impressora escolhida.';
+  if(e.name==='SecurityError'&&/policy|permission/i.test(e.message))return'Esta página está dentro de outro app que bloqueia USB. Abra o arquivo direto no Chrome/Edge.';
+  if(e.name==='SecurityError'||e.name==='NetworkError'||/claim|access denied|busy/i.test(e.message))return'A impressora está ocupada pelo driver do sistema. Use "Imprimir", ou no Windows troque o driver para WinUSB (Zadig). No Android, ligue pelo adaptador OTG.';
+  return'Erro no USB: '+e.message;
+}
+// Desenha o conteúdo em telas (canvas) na largura em pontos da impressora
+async function usbPages(d,k=DOTS){
+  const g=geom(),fit=$('fit').value,m=Math.round(Math.min(g.mg,d.h?g.mg:3)*k),W=d.w-2*m,out=[];
+  if(mode==='flow'){
+    await loadScript(H2C);
+    const hold=document.createElement('div');hold.style.cssText='position:fixed;left:-10000px;top:0';
+    const wrap=document.createElement('div');wrap.className='flow';
+    wrap.style.cssText='width:'+(W/k)+'mm;padding:0;margin:0;box-shadow:none;min-height:0'+(d.h?'':';font-size:9pt;line-height:1.25');
+    wrap.innerHTML=flow;hold.appendChild(wrap);document.body.appendChild(hold);
+    let cv;
+    try{await waitImgs(wrap);const s=Math.min(W/wrap.offsetWidth,30000/Math.max(1,wrap.offsetHeight),Math.sqrt(2.4e8/Math.max(1,wrap.offsetWidth*wrap.offsetHeight)));cv=await html2canvas(wrap,{scale:s,backgroundColor:'#fff',useCORS:true,logging:false})}
+    finally{hold.remove()}
+    const f=W/cv.width,step=(d.h?d.h-2*m:2000)/f;
+    for(let y=0;y<cv.height;y+=step){
+      const hh=Math.min(step,cv.height-y),[c,x]=blankCanvas(d.w,d.h||Math.ceil(hh*f));
+      x.drawImage(cv,0,y,cv.width,hh,m,d.h?m:0,W,hh*f);out.push(c);
+    }
+    cv.width=cv.height=0;
+  }else{
+    const idx=range(items.length);if(!idx.length)throw new Error('nenhuma página no intervalo escolhido');
+    for(const i of idx){
+      const it=items[i],im=await loadImg(it.src);
+      if(d.h){
+        const H=d.h-2*m,[c,x]=blankCanvas(d.w,d.h);
+        drawFit(x,im,m,m,W,H,fit,needRot(it,W,H),k);out.push(c);
+      }else{
+        const r=$('rot').value==='a'&&it.w>it.h*1.05,hh=Math.min(30000,Math.round(W*(r?it.w/it.h:it.h/it.w))),[c,x]=blankCanvas(d.w,hh);
+        drawFit(x,im,m,0,W,hh,fit,r,k);out.push(c);
+      }
+    }
+  }
+  return out;
+}
+// Converte para preto e branco (1 bit). Fotos usam pontilhado para manter os tons.
+function toBits(cv,dither){
+  const w=cv.width,h=cv.height,a=cv.getContext('2d').getImageData(0,0,w,h).data,gr=new Float32Array(w*h),bw=w>>3,o=new Uint8Array(bw*h);
+  const hc=$('cl').value==='h';
+  for(let i=0;i<w*h;i++){let v=.299*a[i*4]+.587*a[i*4+1]+.114*a[i*4+2];if(hc){v=(v-50)*1.6}gr[i]=v}
+  for(let y=0;y<h;y++)for(let x=0;x<w;x++){
+    const i=y*w+x,v=gr[i],b=v<128;
+    if(b)o[y*bw+(x>>3)]|=0x80>>(x&7);
+    if(dither){const e=v-(b?0:255);
+      if(x+1<w)gr[i+1]+=e*7/16;
+      if(y+1<h){if(x>0)gr[i+w-1]+=e*3/16;gr[i+w]+=e*5/16;if(x+1<w)gr[i+w+1]+=e/16}}
+  }
+  cv.width=cv.height=0;return{w,h,bw,d:o};
+}
+const enc=s=>new TextEncoder().encode(s);
+function join(parts){let n=0;parts.forEach(p=>n+=p.length);const r=new Uint8Array(n);let k=0;parts.forEach(p=>{r.set(p,k);k+=p.length});return r}
+function escpos(pages,n){
+  const P=[Uint8Array.of(0x1b,0x40)];
+  for(let c=0;c<n;c++){
+    pages.forEach((p,j)=>{
+      for(let y=0;y<p.h;y+=255){const rows=Math.min(255,p.h-y);P.push(Uint8Array.of(0x1d,0x76,0x30,0,p.bw&255,p.bw>>8,rows&255,rows>>8),p.d.subarray(y*p.bw,(y+rows)*p.bw))}
+      if(j<pages.length-1&&mode!=='flow')P.push(Uint8Array.of(0x1b,0x4a,24));
+    });
+    P.push(Uint8Array.of(0x1b,0x64,4,0x1d,0x56,0x42,0));
+  }
+  return join(P);
+}
+function tspl(pages,n,d){
+  const P=[];
+  pages.forEach(p=>{
+    const inv=p.d.map(b=>~b&255);
+    P.push(enc('SIZE '+f2(d.w/DOTS)+' mm,'+f2(d.h/DOTS)+' mm\r\nGAP 2 mm,0 mm\r\nDIRECTION 1\r\nCLS\r\nBITMAP 0,0,'+p.bw+','+p.h+',0,'),inv,enc('\r\nPRINT 1,'+n+'\r\n'));
+  });
+  return join(P);
+}
+function zpl(pages,n,d){
+  return join(pages.map(p=>{let hx='';for(const b of p.d)hx+=(b<16?'0':'')+b.toString(16).toUpperCase();
+    return enc('^XA^PW'+d.w+'^LL'+d.h+'^FO0,0^GFA,'+p.d.length+','+p.d.length+','+p.bw+','+hx+'^FS^PQ'+n+'^XZ\n')}));
+}
+async function usbSend(data){
+  for(let i=0;i<data.length;i+=16384){
+    st('Enviando pelo cabo USB… '+Math.round(i*100/data.length)+'%');
+    const r=await usbDev.transferOut(usbEp,data.subarray(i,i+16384));
+    if(r.status!=='ok')throw new Error('a impressora recusou os dados ('+r.status+')');
+  }
+}
+// ===== Impressoras comuns: IPP-USB (padrão moderno, o mesmo do Mopria/AirPrint) =====
+let ippId=0;
+const ippStr=(t,n,v)=>[t,n,v];
+function ippReq(op,ops,job){
+  const id=++ippId,P=[Uint8Array.of(2,0,op>>8,op&255,id>>>24,(id>>16)&255,(id>>8)&255,id&255)];
+  const grp=(g,list)=>{P.push(Uint8Array.of(g));for(const[t,nm,v]of list)(Array.isArray(v)?v:[v]).forEach((val,i)=>{
+    const n=i?new Uint8Array(0):enc(nm);let b;
+    if(t===0x21||t===0x23){b=new Uint8Array(4);new DataView(b.buffer).setInt32(0,val)}else b=enc(String(val));
+    P.push(Uint8Array.of(t,n.length>>8,n.length&255),n,Uint8Array.of(b.length>>8,b.length&255),b)})};
+  grp(1,ops);if(job&&job.length)grp(2,job);P.push(Uint8Array.of(3));return join(P);
+}
+function ippParse(b){
+  const dv=new DataView(b.buffer,b.byteOffset,b.byteLength),td=new TextDecoder(),r={status:dv.getUint16(2),a:{}};let i=8,last='';
+  while(i+3<b.length){
+    const t=b[i++];if(t===3)break;if(t<0x10)continue;
+    const nl=dv.getUint16(i);i+=2;const nm=td.decode(b.subarray(i,i+nl));i+=nl;
+    const vl=dv.getUint16(i);i+=2;const s=i;i+=vl;
+    if(nm)last=nm;if(t===0x34||t===0x37||t===0x4a)continue;
+    let v;if((t===0x21||t===0x23)&&vl===4)v=dv.getInt32(s);else if(t===0x22)v=!!b[s];else if(t===0x32&&vl===9)v=[dv.getInt32(s),dv.getInt32(s+4),b[s+8]];else v=td.decode(b.subarray(s,s+vl));
+    (r.a[last]=r.a[last]||[]).push(v);
+  }
+  return r;
+}
+const withTimeout=(p,ms,msg)=>Promise.race([p,new Promise((_,no)=>setTimeout(()=>no(new Error(msg)),ms))]);
+function dechunk(b){
+  const out=[];let i=0;
+  while(true){
+    let j=i;while(j+1<b.length&&!(b[j]===13&&b[j+1]===10))j++;if(j+1>=b.length)return null;
+    const n=parseInt(new TextDecoder().decode(b.subarray(i,j)),16);if(isNaN(n))return null;
+    if(n===0)return join(out);
+    if(j+2+n+2>b.length)return null;out.push(b.subarray(j+2,j+2+n));i=j+2+n+2;
+  }
+}
+async function ippCall(body,label){
+  const hdr=enc('POST /ipp/print HTTP/1.1\r\nHost: localhost\r\nContent-Type: application/ipp\r\nContent-Length: '+body.length+'\r\nConnection: keep-alive\r\n\r\n');
+  await usbDev.transferOut(usbEp,hdr);
+  if(body.length>65536)await usbSend(body);else await usbDev.transferOut(usbEp,body);
+  if(label)st(label);
+  let buf=new Uint8Array(0),hl=-1,len=-1,chunked=false;
+  for(;;){
+    const r=await withTimeout(usbDev.transferIn(usbIn,16384),180000,'a impressora não respondeu');
+    if(r.data&&r.data.byteLength)buf=join([buf,new Uint8Array(r.data.buffer,r.data.byteOffset,r.data.byteLength)]);
+    if(hl<0){
+      const s=new TextDecoder('latin1').decode(buf.subarray(0,Math.min(buf.length,8192))),k=s.indexOf('\r\n\r\n');
+      if(k<0)continue;const head=s.slice(0,k);
+      if(/^HTTP\/1\.\d 100/.test(head)){buf=buf.subarray(k+4);continue}
+      if(!/^HTTP\/1\.\d 200/.test(head))throw new Error('a impressora respondeu: '+head.split('\r\n')[0]);
+      hl=k+4;const m=/content-length:\s*(\d+)/i.exec(head);len=m?+m[1]:-1;chunked=/transfer-encoding:\s*chunked/i.test(head);
+    }
+    if(len>=0&&buf.length-hl>=len)return ippParse(buf.subarray(hl,hl+len));
+    if(chunked){const d=dechunk(buf.subarray(hl));if(d)return ippParse(d)}
+  }
+}
+const IPPOPS=()=>[[0x47,'attributes-charset','utf-8'],[0x48,'attributes-natural-language','pt-br'],[0x45,'printer-uri','ipp://localhost/ipp/print'],[0x42,'requesting-user-name','Imprimir']];
+const PWGM={a4:'iso_a4_210x297mm',univ:'iso_a4_210x297mm',letter:'na_letter_8.5x11in',oficio:'na_foolscap_8.5x13in',legal:'na_legal_8.5x14in',a3:'iso_a3_297x420mm',a5:'iso_a5_148x210mm',a6:'iso_a6_105x148mm',b5:'iso_b5_176x250mm',exec:'na_executive_7.25x10.5in',foto:'na_index-4x6_4x6in',foto13:'na_5x7_5x7in',foto15:'iso_a5_148x210mm',etq:'na_index-4x6_4x6in'};
+function mediaMM(n){const m=/_([\d.]+)x([\d.]+)(mm|in)$/.exec(n||'');if(!m)return null;const f=m[3]==='in'?25.4:1;return[+m[1]*f,+m[2]*f]}
+function rot90(c){const[r,x]=blankCanvas(c.height,c.width);x.translate(r.width,0);x.rotate(Math.PI/2);x.drawImage(c,0,0);c.width=c.height=0;return r}
+// Gera páginas em pixels para a impressora (sempre em pé; paisagem é girada)
+async function sheetCanvases(mw,mh,dpi,mult8){
+  const k=dpi/25.4,land=$('or').value==='l';
+  let w=Math.round((land?mh:mw)*k),h=Math.round((land?mw:mh)*k);if(mult8){if(land)h=h>>3<<3;else w=w>>3<<3}
+  let cs=await usbPages({w,h},k);if(land)cs=cs.map(rot90);return cs;
+}
+// PWG Raster (formato obrigatório em todas as impressoras IPP Everywhere / Mopria)
+function Bytes(){let b=new Uint8Array(1<<20),n=0;return{push(a){if(typeof a==='number'){if(n+1>b.length){const t=new Uint8Array(b.length*2);t.set(b);b=t}b[n++]=a;return}if(n+a.length>b.length){let L=b.length;while(n+a.length>L)L*=2;const t=new Uint8Array(L);t.set(b.subarray(0,n));b=t}b.set(a,n);n+=a.length},get(){return b.subarray(0,n)}}}
+function pwgPage(W,cv,dpi,rgb,name,total){
+  const w=cv.width,h=cv.height,bpp=rgb?3:1,hd=new Uint8Array(1796),dv=new DataView(hd.buffer),u=(o,v)=>dv.setUint32(o,v>>>0);
+  hd.set(enc('PwgRaster'),0);hd.set(enc(name).subarray(0,63),1732);
+  u(276,dpi);u(280,dpi);u(340,1);u(352,Math.round(w*72/dpi));u(356,Math.round(h*72/dpi));
+  u(372,w);u(376,h);u(384,8);u(388,8*bpp);u(392,w*bpp);u(400,rgb?19:18);u(420,bpp);
+  u(452,total);u(456,1);u(460,1);u(472,w);u(476,h);u(480,0xffffff);
+  W.push(hd);
+  const a=cv.getContext('2d').getImageData(0,0,w,h).data;cv.width=cv.height=0;
+  const cl=$('cl').value,L=w*bpp;let prev=new Uint8Array(L),cur=new Uint8Array(L),rep=-1;
+  const line=y=>{const o=y*w*4;if(rgb){for(let x=0;x<w;x++){cur[x*3]=a[o+x*4];cur[x*3+1]=a[o+x*4+1];cur[x*3+2]=a[o+x*4+2]}}
+    else for(let x=0;x<w;x++){let v=.299*a[o+x*4]+.587*a[o+x*4+1]+.114*a[o+x*4+2];if(cl==='h'){v=(v-50)*1.6;v=v<0?0:v>255?255:v}cur[x]=v}};
+  const same=(p,q)=>{for(let i=0;i<bpp;i++)if(prev[p*bpp+i]!==prev[q*bpp+i])return false;return true};
+  const pix=x=>W.push(prev.subarray(x*bpp,x*bpp+bpp));
+  const flush=()=>{W.push(rep);let x=0;
+    while(x<w){let r=1;while(x+r<w&&r<128&&same(x,x+r))r++;
+      if(r>1){W.push(r-1);pix(x);x+=r;continue}
+      let c=1;while(x+c<w&&c<128&&!(x+c+1<w&&same(x+c,x+c+1)))c++;
+      if(c===1){W.push(0);pix(x)}else{W.push(257-c);W.push(prev.subarray(x*bpp,(x+c)*bpp))}x+=c}};
+  for(let y=0;y<h;y++){line(y);
+    let eq=rep>=0;if(eq)for(let i=0;i<L;i++)if(cur[i]!==prev[i]){eq=false;break}
+    if(eq&&rep<255){rep++;continue}
+    if(rep>=0)flush();const t=prev;prev=cur;cur=t;rep=0}
+  if(rep>=0)flush();
+}
+async function ippPrint(){
+  st('Consultando a impressora pelo cabo…');
+  const at=(await ippCall(ippReq(0x0B,IPPOPS().concat([[0x44,'requested-attributes',['printer-make-and-model','document-format-supported','media-supported','media-default','pwg-raster-document-resolution-supported','pwg-raster-document-type-supported','print-color-mode-supported','printer-state-reasons']]])))).a;
+  const model=(at['printer-make-and-model']||[usbName()])[0],fmts=at['document-format-supported']||[],ms=at['media-supported']||[];
+  const p=$('pp').value,want=[PWGM[p]].concat(p==='univ'?['na_letter_8.5x11in']:[]).filter(Boolean);
+  let media=want.find(x=>ms.includes(x))||(ms.length?null:want[0])||(at['media-default']||[])[0]||'iso_a4_210x297mm';
+  const dim=mediaMM(media)||[210,297];
+  const colorOk=(at['print-color-mode-supported']||['color']).includes('color'),color=$('cl').value==='c'&&colorOk,n=copies();
+  const job=[[0x44,'media',media],[0x44,'print-color-mode',color?'color':'monochrome']];
+  const send=async(fmt,data,cp)=>{
+    const r=await ippCall(join([ippReq(0x02,IPPOPS().concat([[0x42,'job-name','Imprimir'],[0x49,'document-format',fmt]]),job.concat(cp>1?[[0x21,'copies',cp]]:[])),data]),'Imprimindo em '+model+'…');
+    if(r.status>=0x400)throw new Error('a impressora recusou o trabalho (código 0x'+r.status.toString(16)+')'+((r.a['status-message']||[])[0]?': '+r.a['status-message'][0]:''));
+  };
+  if(fmts.includes('image/pwg-raster')){
+    const res=(at['pwg-raster-document-resolution-supported']||[[300,300,3]]).filter(r=>r[2]===3).map(r=>r[0]).sort((a,b)=>a-b);
+    const dpi=q()==='r'?res[0]:res.includes(300)?300:res.find(r=>r>300)||res[res.length-1]||300;
+    const types=at['pwg-raster-document-type-supported']||['sgray_8'],rgb=color&&types.includes('srgb_8');
+    st('Preparando páginas para '+model+'…');
+    const cs=await sheetCanvases(dim[0],dim[1],dpi,false),W=Bytes(),tot=cs.length*n;W.push(enc('RaS2'));
+    for(let c=0;c<n;c++)for(let j=0;j<cs.length;j++){st('Preparando página '+(j+1)+' de '+cs.length+'…');const cv=c<n-1?copyCanvas(cs[j]):cs[j];pwgPage(W,cv,dpi,rgb,media,tot)}
+    await send('image/pwg-raster',W.get(),1);
+  }else if(fmts.includes('application/pdf')){
+    st('Gerando PDF para '+model+'…');
+    await send('application/pdf',new Uint8Array(await (await buildPdf()).arrayBuffer()),mode==='flow'?n:1);
+  }else if(fmts.includes('image/jpeg')){
+    const cs=await sheetCanvases(dim[0],dim[1],300,false);
+    for(const cv of cs){const b=await toBlob(cv);cv.width=cv.height=0;await send('image/jpeg',new Uint8Array(await b.arrayBuffer()),n)}
+  }else throw new Error('a impressora não aceita nenhum formato padrão ('+fmts.join(', ')+')');
+  return model;
+}
+function copyCanvas(c){const[r,x]=blankCanvas(c.width,c.height);x.drawImage(c,0,0);return r}
+// ===== Impressoras "host-based" (só entendem o driver do fabricante): HP P1005/P1102/M1132, Canon LBP2900, Samsung ML… =====
+const HOSTBASED=/LaserJet.*\b(P?10\d\d|P11\d\d|P15\d\d|M10\d\d|M11\d\d|M12\d\d|M11[01]\w?)\b|LBP\s?(2900|3000|3010|3050|3100|6000|6018|6020|6030)|\bHL-1[0-2]\d\d|\bDCP-1[0-6]\d\d|\bMFC-1[89]\d\d|\bML-\d{4}|\bSCX-3\d{3}|Phaser\s?30[12]0|WorkCentre\s?3025/i;
+const PSHARE='com.dynamixsoftware.printershare';
+function isHostBased(d){return HOSTBASED.test([d.manufacturerName,d.productName].filter(Boolean).join(' '))}
+function showPrinterShare(name){
+  const box=$('drv');box.style.display='block';
+  box.innerHTML='<h3>'+esc(name)+' precisa de driver especial</h3><p>Este modelo só entende a linguagem própria do fabricante, então nenhum navegador consegue imprimir nele direto. O <b>PrinterShare</b> tem esse driver.</p>'
+   +'<ol><li>Instale o PrinterShare (se ainda não tiver):</li></ol><a class="bt" href="'+play(PSHARE)+'">⬇ PrinterShare na Play Store</a>'
+   +'<ol start="2"><li>Abra o PrinterShare uma vez com a impressora no cabo e deixe ele baixar o driver.</li><li>Volte aqui e toque no botão abaixo. Depois toque em <b>📤 Enviar PDF</b> e escolha <b>PrinterShare</b>.</li></ol>'
+   +'<button class="main" id="psgo" type="button" style="width:100%">Gerar PDF para o PrinterShare</button>';
+  $('psgo').onclick=()=>$('pdf').click();
+  box.scrollIntoView({behavior:'smooth',block:'nearest'});
+}
+// ===== Impressoras comuns antigas: PCL (lasers HP, Brother, Samsung, Lexmark, Kyocera, Ricoh…) =====
+const PCLSIZE={a4:26,univ:26,letter:2,legal:3,exec:1,a5:25,a3:27,oficio:3,b5:100,a6:24};
+function packbits(r,n){const o=[];let i=0;
+  while(i<n){let j=i;while(j+1<n&&r[j+1]===r[i]&&j-i<127)j++;
+    if(j>i){o.push(257-(j-i+1)&255,r[i]);i=j+1;continue}
+    let k=i;while(k+1<n&&r[k+1]!==r[k]&&k-i<127)k++;if(k+1<n&&k>i&&r[k+1]===r[k])k--;
+    o.push(k-i);for(let t=i;t<=k;t++)o.push(r[t]);i=k+1}
+  return Uint8Array.from(o)}
+async function pclPrint(){
+  const p=$('pp').value,P=PAPER[p]||PAPER.a4,dpi=300,n=copies(),dither=mode!=='flow'&&$('cl').value!=='h';
+  st('Preparando páginas (PCL)…');
+  const pages=(await sheetCanvases(P[0],P[1]||297,dpi,true)).map(c=>toBits(c,dither));
+  const W=Bytes();
+  W.push(enc('\x1b%-12345X@PJL JOB NAME="Imprimir"\r\n@PJL ENTER LANGUAGE=PCL\r\n\x1bE\x1b&l'+n+'X\x1b&l'+(PCLSIZE[p]||26)+'A\x1b&l0O\x1b&l0E\x1b*t'+dpi+'R'));
+  for(const pg of pages){
+    W.push(enc('\x1b*p0x0Y\x1b*r'+pg.w+'S\x1b*r1A\x1b*b2M'));
+    for(let y=0;y<pg.h;y++){const r=pg.d.subarray(y*pg.bw,(y+1)*pg.bw);let e=pg.bw;while(e>0&&!r[e-1])e--;
+      if(!e){W.push(enc('\x1b*b0W'));continue}const c=packbits(r,e);W.push(enc('\x1b*b'+c.length+'W'));W.push(c)}
+    W.push(enc('\x1b*rC\x0c'));
+  }
+  W.push(enc('\x1bE\x1b%-12345X@PJL EOJ\r\n\x1b%-12345X'));
+  await usbSend(W.get());
+}
+$('uc').onclick=async()=>{try{await usbOpen(true,usbLang()==='comum');st('Conectada: '+usbName()+'. Agora toque em "USB" para imprimir.')}catch(e){st(usbErr(e))}};
+$('usb').onclick=async()=>{
+  if(!mode){st('Carregue um conteúdo antes de imprimir.');return}
+  const lang=usbLang();
+  if(lang==='sys'){st('Impressora comum: na janela que abrir, escolha a impressora ligada no cabo USB.');setTimeout(()=>$('pr').onclick(),400);return}
+  const b=$('usb');b.disabled=true;
+  try{
+    if(lang==='comum'){
+      await usbOpen(false,true);
+      if(usbIpp){const m=await ippPrint();st('Enviado para '+m+' pelo cabo USB ✓');return}
+      if(isHostBased(usbDev)){const nm=usbName();try{await usbDev.close()}catch(_){}usbDev=null;usbLabel();showPrinterShare(nm);st(nm+': use o PrinterShare (veja as instruções acima).');return}
+      await pclPrint();
+      st('Enviado em PCL para '+usbName()+'. Se não sair nada em 30 s, sua impressora usa linguagem própria: toque em 🔌 Reconhecer impressora e use o plugin da marca.');return;
+    }
+    await usbOpen(false,false);
+    st('Preparando para '+usbName()+'…');
+    const d=usbDims(lang),dither=mode==='img'&&$('cl').value!=='h';
+    const pages=(await usbPages(d)).map(c=>toBits(c,dither));
+    const n=copies();
+    const data=lang==='esc'?escpos(pages,n):lang==='tspl'?tspl(pages,n,d):zpl(pages,n,d);
+    await usbSend(data);
+    st('Enviado para '+usbName()+' pelo cabo USB ✓');
+  }catch(e){
+    if(e.name!=='NotFoundError'&&usbDev){try{await usbDev.close()}catch(_){}usbDev=null;usbLabel()}
+    st(usbErr(e));
+  }finally{b.disabled=false}
+};
+if(navigator.usb){
+  navigator.usb.addEventListener('disconnect',e=>{if(e.device===usbDev){usbDev=null;usbLabel();st('Impressora USB desconectada.')}});
+  navigator.usb.getDevices().then(ds=>{if(ds[0]&&!usbDev)$('uc').textContent='↻ '+(ds[0].productName||'Impressora USB')}).catch(()=>{});
+}
+
+// ---------- Reconhecer impressora e baixar driver / plugin ----------
+// vendorId USB -> marca e plugin de impressão do Android (o "driver" do celular)
+const BRANDS={
+  hp:{n:'HP',v:[0x03f0],app:'com.hp.android.printservice',pn:'HP Print Service Plugin'},
+  epson:{n:'Epson',v:[0x04b8],app:'com.epson.mobilephone.android.epsonprintserviceplugin',pn:'Epson Print Enabler'},
+  canon:{n:'Canon',v:[0x04a9],app:'jp.co.canon.android.printservice.plugin',pn:'Canon Print Service'},
+  brother:{n:'Brother',v:[0x04f9],app:'com.brother.printservice',pn:'Brother Print Service Plugin'},
+  samsung:{n:'Samsung',v:[0x04e8],app:'com.hp.android.printservice',pn:'HP Print Service Plugin (impressoras Samsung agora são da HP)'},
+  zebra:{n:'Zebra',v:[0x0a5f],thermal:1},
+  outra:{n:'Outra marca (Lexmark, Xerox, Kyocera, Ricoh…)',v:[0x043d,0x0924,0x0482,0x05ca],app:'org.mopria.printplugin',pn:'Mopria Print Service'},
+  termica:{n:'Térmica de cupom/etiqueta (Elgin, Bematech, Xprinter, Knup…)',v:[],thermal:1}
+};
+const OS=()=>{const u=navigator.userAgent;return/Android/i.test(u)?'android':/iPhone|iPad|iPod/.test(u)||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1)?'ios':/Windows/i.test(u)?'win':/Mac/i.test(u)?'mac':'pc'};
+const play=p=>(OS()==='android'?'market://details?id=':'https://play.google.com/store/apps/details?id=')+p;
+function brandOf(dev){
+  for(const k in BRANDS)if(BRANDS[k].v.includes(dev.vendorId))return k;
+  // classe 7 = impressora comum; sem classe de impressora costuma ser térmica
+  const pr=dev.configuration?dev.configuration.interfaces.some(i=>i.alternates.some(a=>a.interfaceClass===7)):true;
+  return pr?'outra':'termica';
+}
+function showDriver(k,name){
+  const b=BRANDS[k],os=OS(),box=$('drv');box.style.display='block';
+  const sel='<select id="drb">'+Object.keys(BRANDS).map(x=>'<option value="'+x+'"'+(x===k?' selected':'')+'>'+BRANDS[x].n+'</option>').join('')+'</select>';
+  let h='<h3>'+(name?'Encontrada: '+esc(name):'Escolha a marca da impressora')+'</h3>Marca: '+sel;
+  const q=encodeURIComponent('driver '+(name||b.n)+' download');
+  if(b.thermal){
+    h+='<p>Esta impressora <b>não precisa de driver</b> neste app: ela recebe direto pelo cabo.</p><ol><li>Toque em <b>Conectar USB</b> e escolha a impressora.</li><li>Escolha o papel (Bobina ou Etiqueta).</li><li>Toque em <b>USB</b> na barra de baixo.</li></ol>';
+    if(os==='ios')h+='<p>No iPhone/iPad isso não funciona: o navegador não acessa USB.</p>';
+  }else if(os==='android'){
+    h+='<ol><li>Instale o plugin <b>'+b.pn+'</b> (é o "driver" do Android):</li></ol><a class="bt" href="'+play(b.app)+'">⬇ Baixar na Play Store</a>'
+     +(b.app!=='org.mopria.printplugin'?'<p>Se não reconhecer, tente também o <a href="'+play('org.mopria.printplugin')+'">Mopria Print Service</a> (serve para quase todas as marcas).</p>':'')
+     +'<ol start="2"><li>Abra <b>Configurações › Dispositivos conectados › Impressão</b> (ou pesquise "Impressão") e <b>ative</b> o serviço instalado.</li><li>Ligue a impressora no celular com o cabo e um adaptador <b>OTG</b>. Aceite a permissão de USB que aparecer.</li><li>Volte aqui e toque em <b>Imprimir</b>. A impressora vai aparecer na lista.</li></ol>'
+     +'<p>Se nada aparecer: o cabo/adaptador precisa ser OTG, e algumas impressoras antigas só funcionam por Wi-Fi no celular. Nesse caso use <b>PDF / Enviar</b> para o app da marca.</p>';
+  }else if(os==='ios'){
+    h+='<p>iPhone/iPad não usam driver e não imprimem por cabo USB em impressoras comuns. Use uma impressora com <b>AirPrint</b> (Wi-Fi) e toque em <b>Imprimir</b>, ou <b>PDF / Enviar</b> para o app da marca.</p>';
+  }else{
+    h+='<ol><li>Baixe o driver no site oficial da '+b.n.split(' ')[0]+':</li></ol><a class="bt" href="https://www.google.com/search?q='+q+'" target="_blank" rel="noopener">⬇ Procurar driver oficial</a>'
+     +'<ol start="2"><li>Instale, ligue o cabo USB e espere o '+(os==='mac'?'Mac':'Windows')+' reconhecer.</li><li>Volte aqui e toque em <b>Imprimir</b>.</li></ol><p>Baixe só do site do fabricante (hp.com, epson.com.br, canon.com.br, brother.com.br…).</p>';
+  }
+  box.innerHTML=h;$('drb').onchange=e=>showDriver(e.target.value,'');
+  box.scrollIntoView({behavior:'smooth',block:'nearest'});
+}
+$('dr').onclick=async()=>{
+  if(!navigator.usb){showDriver(OS()==='ios'?'outra':'hp','');st('Este navegador não lê o cabo USB: escolha a marca na lista.');return}
+  try{
+    st('Ligue a impressora no cabo e escolha-a na lista…');
+    const d=usbDev||await navigator.usb.requestDevice({filters:[]});
+    let k;try{if(!d.opened){await d.open();if(!d.configuration)await d.selectConfiguration(1)}k=brandOf(d);if(d!==usbDev)await d.close()}catch(e){k=brandOf({vendorId:d.vendorId})}
+    const name=[d.manufacturerName,d.productName].filter(Boolean).join(' ')||BRANDS[k].n;
+    if(isHostBased(d)){showPrinterShare(name);st('Impressora identificada: '+name);return}
+    showDriver(k,name);st('Impressora identificada: '+name);
+  }catch(e){showDriver('hp','');st(e.name==='NotFoundError'?'Nenhuma apareceu na lista? Verifique o cabo/OTG ou escolha a marca manualmente.':'Não consegui ler o USB: escolha a marca manualmente.')}
+};
+
+// ---------- Dentro do app Android "Imprimir USB" ----------
+function blobB64(b){return new Promise((ok,no)=>{const r=new FileReader();r.onload=()=>ok(String(r.result).split(',')[1]);r.onerror=()=>no(r.error);r.readAsDataURL(b)})}
+function appRefresh(){if(!window.AndroidUSB)return;$('apppr').textContent=AndroidUSB.printerName();$('aext').value=AndroidUSB.getExtra()}
+function openShared(b64,name,type){
+  const bin=atob(b64),u=new Uint8Array(bin.length);for(let i=0;i<bin.length;i++)u[i]=bin.charCodeAt(i);
+  const f=new File([u],name||'arquivo',{type:type||''});
+  if(/^image\//.test(f.type))addImgs([f],false);else openFile(f);
+}
+if(window.AndroidUSB){
+  ['usb','dr','drv'].forEach(id=>$(id).style.display='none');
+  $('ul').closest('label').style.display='none';$('uc').closest('label').style.display='none';
+  $('appbox').style.display='block';
+  $('aauth').onclick=()=>AndroidUSB.authorize();
+  $('afw').onclick=()=>AndroidUSB.pickFirmware();
+  $('aset').onclick=()=>AndroidUSB.openPrintSettings();
+  $('aext').onchange=()=>AndroidUSB.setExtra($('aext').value);
+  $('pdf').textContent='Salvar PDF';
+  $('pr').onclick=async()=>{
+    if(!mode){st('Carregue um conteúdo antes de imprimir.');return}
+    const b=$('pr');b.disabled=true;st('Preparando impressão…');
+    try{const pdf=await buildPdf();st('Enviando para o app…');AndroidUSB.printPdf(await blobB64(pdf),$('pp').value,mode==='flow'?copies():1)}
+    catch(e){st('Não consegui preparar: '+e.message)}
+    finally{b.disabled=false}
+  };
+  appRefresh();
+}
+render();
+if(INAPP&&!window.AndroidUSB)st('Você está no navegador interno de um app. Se "Imprimir" não abrir, use "PDF / Enviar" ou abra no Chrome/Safari.');
+</script>
+</body>
+</html>

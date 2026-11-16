@@ -1,0 +1,8 @@
+build/
+app/build/
+.gradle/
+ext/
+app/src/main/jniLibs/
+foo2xqx-host
+foo2xqx-ajuda.txt
+local.properties
